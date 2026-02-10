@@ -12,41 +12,28 @@ protoactor-cpp/
 │   ├── context.h           # Actor上下文
 │   ├── props.h             # Actor属性配置
 │   ├── actor_system.h      # Actor系统
-│   ├── process.h           # 进程接口
-│   ├── process_registry.h  # 进程注册表
-│   ├── mailbox.h           # 邮箱
-│   ├── dispatcher.h        # 调度器
-│   ├── future.h            # Future异步结果
-│   ├── supervision.h      # 监督策略
-│   └── messages.h          # 消息定义
+│   └── ...
 ├── src/                    # 实现文件
 │   ├── actor/              # 核心actor模块
 │   ├── remote/             # 远程通信模块
 │   ├── cluster/            # 集群模块
 │   ├── router/             # 路由模块
-│   ├── persistence/        # 持久化模块
-│   ├── scheduler/          # 调度器模块
-│   ├── stream/             # 流处理模块
-│   ├── eventstream/        # 事件流模块
-│   └── metrics/            # 指标模块
+│   └── ...
 ├── proto/                  # Protobuf定义
 ├── examples/               # 示例代码
-├── tests/                  # 测试代码
 └── CMakeLists.txt         # CMake构建文件
 ```
 
-## 构建要求
+## 快速开始
+
+### 构建要求
 
 - **Linux操作系统** (Ubuntu, Debian, CentOS, RHEL等)
 - C++11或更高版本的编译器（GCC 4.8+, Clang 3.3+）
 - CMake 3.10+
-- pthread库
-- Protobuf (可选，用于消息序列化)
-- gRPC (可选，用于远程通信)
+- pthread库（系统自带）
 
-## 快速构建
-
-### Linux服务器
+### 快速构建
 
 ```bash
 # 使用构建脚本（推荐）
@@ -61,17 +48,6 @@ protoactor-cpp/
 
 # 启用Protobuf支持
 ./build.sh --protobuf
-
-# 交叉编译（例如在x86上编译ARM）
-./build.sh --arch arm64
-```
-
-### 使用Makefile
-
-```bash
-make                    # 默认构建
-make ARCH=arm64         # ARM64架构
-make BUILD_TYPE=Debug   # Debug模式
 ```
 
 ### 手动构建
@@ -83,18 +59,29 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . -j$(nproc)
 ```
 
-## 跨架构支持（Linux 64位）
+## 跨架构支持
 
 项目完全支持在ARM64和x86_64架构的Linux服务器上编译运行：
-
 - ✅ **x86_64** (64位Intel/AMD)
 - ✅ **ARM64** (AArch64, ARM服务器)
 
 **注意**: 仅支持64位架构，不支持32位系统。
 
-支持交叉编译，可以在x86_64服务器上编译ARM64版本，反之亦然。
-
 详细说明请查看 [跨架构编译指南](CROSS_PLATFORM_GUIDE.md)
+
+## 依赖项
+
+### 必需依赖
+- pthread（系统自带）
+- C++11标准库（编译器自带）
+
+### 可选依赖（功能增强）
+- **gRPC + Protobuf**: 远程通信（必需，如需远程功能）
+- **spdlog**: 日志系统（推荐）
+- **Google Test**: 测试框架（推荐）
+- **nlohmann/json**: JSON支持（可选）
+
+详细依赖说明和安装步骤请查看 [依赖项说明](DEPENDENCIES.md) 和 [安装指南](INSTALL_DEPENDENCIES.md)
 
 ## 核心功能
 
@@ -116,16 +103,12 @@ cmake --build . -j$(nproc)
 - Restarting策略
 - 自定义Decider
 
-### 邮箱和调度
-- 无界邮箱
-- 有界邮箱
-- 默认调度器
-- 同步调度器
-
 ### 远程通信
 - gRPC支持
 - 跨节点消息传递
 - 远程Actor创建
+
+详细说明请查看 [gRPC集成指南](GRPC_INTEGRATION_GUIDE.md)
 
 ### 集群支持
 - 成员管理
@@ -176,18 +159,15 @@ int main() {
 }
 ```
 
-## 状态
+更多示例请查看 `examples/` 目录
 
-这是一个正在进行中的项目，正在系统地将Go版本转换为C++11。当前已完成：
+## 文档
 
-- [x] 项目结构
-- [x] 核心头文件定义
-- [ ] 核心实现文件
-- [ ] 远程通信模块
-- [ ] 集群模块
-- [ ] 路由模块
-- [ ] 持久化模块
-- [ ] 测试和示例
+- [构建指南](BUILD_GUIDE.md) - 详细的构建说明
+- [跨架构编译指南](CROSS_PLATFORM_GUIDE.md) - 交叉编译说明
+- [依赖项说明](DEPENDENCIES.md) - 依赖库介绍
+- [安装指南](INSTALL_DEPENDENCIES.md) - 依赖安装步骤
+- [gRPC集成指南](GRPC_INTEGRATION_GUIDE.md) - gRPC集成说明
 
 ## 许可证
 
