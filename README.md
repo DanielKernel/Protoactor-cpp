@@ -67,8 +67,6 @@ cmake --build . -j$(nproc)
 
 **注意**: 仅支持64位架构，不支持32位系统。
 
-详细说明请查看 [跨架构编译指南](CROSS_PLATFORM_GUIDE.md)
-
 ## 依赖项
 
 ### 必需依赖
@@ -80,8 +78,6 @@ cmake --build . -j$(nproc)
 - **spdlog**: 日志系统（推荐）
 - **Google Test**: 测试框架（推荐）
 - **nlohmann/json**: JSON支持（可选）
-
-详细依赖说明和安装步骤请查看 [依赖项说明](DEPENDENCIES.md) 和 [安装指南](INSTALL_DEPENDENCIES.md)
 
 ## 核心功能
 
@@ -107,8 +103,6 @@ cmake --build . -j$(nproc)
 - gRPC支持
 - 跨节点消息传递
 - 远程Actor创建
-
-详细说明请查看 [gRPC集成指南](GRPC_INTEGRATION_GUIDE.md)
 
 ### 集群支持
 - 成员管理
@@ -163,11 +157,7 @@ int main() {
 
 ## 文档
 
-- [构建指南](BUILD_GUIDE.md) - 详细的构建说明
-- [跨架构编译指南](CROSS_PLATFORM_GUIDE.md) - 交叉编译说明
-- [依赖项说明](DEPENDENCIES.md) - 依赖库介绍
-- [安装指南](INSTALL_DEPENDENCIES.md) - 依赖安装步骤
-- [gRPC集成指南](GRPC_INTEGRATION_GUIDE.md) - gRPC集成说明
+- [构建指南](BUILD_GUIDE.md) - 完整的构建、依赖安装、跨架构编译和gRPC集成说明
 
 ## 许可证
 
