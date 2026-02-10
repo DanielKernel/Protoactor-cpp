@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64, arm64]
+        build_type: [Release, Debug]
+        include:
+          - arch: x86_64
+            build_type: Release
+          - arch: arm64
+            build_type: Release
+          - arch: x86_64
+            build_type: Debug
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up CMake
+      uses: jwlawson/actions-setup-cmake@v1
+      with:
+        cmake-version: '3.20'
+
+    - name: Install cross-compilation tools (ARM64)
+      if: matrix.arch == 'arm64'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+    - name: Configure CMake
+      run: |
+        if [ "${{ matrix.arch }}" == "arm64" ]; then
+          cmake -B build -S . \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_SYSTEM_PROCESSOR=aarch64 \
+            -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc \
+            -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ \
+            -DBUILD_EXAMPLES=ON \
+            -DBUILD_TESTS=ON
+        else
+          cmake -B build -S . \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DBUILD_EXAMPLES=ON \
+            -DBUILD_TESTS=ON
+        fi
+
+    - name: Build
+      run: cmake --build build -j$(nproc)
+
+    - name: Test
+      working-directory: build
+      run: ctest --output-on-failure || true

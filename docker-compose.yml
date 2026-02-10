@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  build-x86_64:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TARGET_ARCH: x86_64
+        BUILD_TYPE: Release
+    image: protoactor-cpp:x86_64
+
+  build-arm64:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TARGET_ARCH: arm64
+        BUILD_TYPE: Release
+    image: protoactor-cpp:arm64
+    platform: linux/arm64
+
+  test-x86_64:
+    image: protoactor-cpp:x86_64
+    command: ["./hello_world"]
+    platform: linux/amd64
+
+  test-arm64:
+    image: protoactor-cpp:arm64
+    command: ["./hello_world"]
+    platform: linux/arm64

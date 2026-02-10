@@ -1,0 +1,48 @@
+syntax = "proto3";
+package protoactor;
+
+option cc_enable_arenas = true;
+
+message PID {
+  string address = 1;
+  string id = 2;
+  uint32 request_id = 3;
+}
+
+// User messages
+message PoisonPill {
+}
+
+message DeadLetterResponse {
+  PID target = 1;
+}
+
+// System messages
+message Watch {
+  PID watcher = 1;
+}
+
+message Unwatch {
+  PID watcher = 1;
+}
+
+message Terminated {
+  PID who = 1;
+  TerminatedReason why = 2;
+}
+
+enum TerminatedReason {
+  STOPPED = 0;
+  ADDRESS_TERMINATED = 1;
+  NOT_FOUND = 2;
+}
+
+message Stop {
+}
+
+message Touch {
+}
+
+message Touched {
+  PID who = 1;
+}
