@@ -20,6 +20,7 @@ endif()
 option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_SHARED_LIBS "Build shared library" OFF)
+option(ENABLE_COVERAGE "Enable code coverage (gcov/lcov)" OFF)
 
 # Compiler-specific options (Linux only)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -106,6 +107,7 @@ set(ACTOR_SOURCES
     src/actor/actor_system.cpp
     src/actor/process_registry.cpp
     src/actor/mailbox.cpp
+    src/actor/thread_pool.cpp
     src/actor/dispatcher.cpp
     src/actor/future.cpp
     src/actor/messages.cpp
@@ -232,6 +234,11 @@ target_link_libraries(protoactor-cpp
     Threads::Threads
 )
 
+if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(protoactor-cpp PRIVATE --coverage)
+    target_link_libraries(protoactor-cpp --coverage)
+endif()
+
 # Add protobuf if enabled
 if(ENABLE_PROTOBUF AND PROTO_GENERATED)
     target_sources(protoactor-cpp PRIVATE ${PROTO_SRCS})
@@ -306,11 +313,77 @@ if(BUILD_EXAMPLES)
     )
 endif()
 
-# Tests
+# Tests: unit tests per module + integration + performance (no GTest required)
 if(BUILD_TESTS)
     enable_testing()
-    # Placeholder for test targets
-    message(STATUS "Tests will be added later")
+    set(TEST_OUTPUT_DIR ${CMAKE_BINARY_DIR}/tests)
+
+    # Unit tests by module: (source_file, test_name, ctest_label_module)
+    set(UNIT_TESTS
+        tests/unit/pid_test.cpp::unit_pid::pid
+        tests/unit/config_test.cpp::unit_config::config
+        tests/unit/platform_test.cpp::unit_platform::platform
+        tests/unit/queue_test.cpp::unit_queue::queue
+        tests/unit/pidset_test.cpp::unit_pidset::pidset
+        tests/unit/priority_queue_test.cpp::unit_priority_queue::priority_queue
+        tests/unit/messages_test.cpp::unit_messages::messages
+        tests/unit/thread_pool_test.cpp::thread_pool_test::thread_pool
+        tests/unit/dispatcher_test.cpp::dispatcher_test::dispatcher
+        tests/unit/extensions_test.cpp::unit_extensions::extensions
+        tests/unit/props_test.cpp::unit_props::props
+        tests/unit/eventstream_test.cpp::unit_eventstream::eventstream
+    )
+    foreach(_ent ${UNIT_TESTS})
+        string(REPLACE "::" ";" _parts "${_ent}")
+        list(GET _parts 0 _src)
+        list(GET _parts 1 _name)
+        list(GET _parts 2 _mod)
+        add_executable(${_name} ${_src})
+        target_include_directories(${_name} PRIVATE ${CMAKE_SOURCE_DIR})
+        target_link_libraries(${_name} protoactor-cpp)
+        set_target_properties(${_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR})
+        add_test(NAME ${_name} COMMAND ${_name} WORKING_DIRECTORY ${TEST_OUTPUT_DIR})
+        set_tests_properties(${_name} PROPERTIES
+            ENVIRONMENT "PROTOACTOR_TEST=1"
+            LABELS "unit;module:${_mod}"
+        )
+        if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+            target_compile_options(${_name} PRIVATE --coverage)
+            target_link_libraries(${_name} --coverage)
+        endif()
+    endforeach()
+
+    # Functional tests (integration + performance)
+    add_executable(actor_integration_test tests/functional/actor_integration_test.cpp)
+    target_include_directories(actor_integration_test PRIVATE ${CMAKE_SOURCE_DIR})
+    target_link_libraries(actor_integration_test protoactor-cpp)
+    set_target_properties(actor_integration_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR})
+    add_test(NAME actor_integration_test COMMAND actor_integration_test WORKING_DIRECTORY ${TEST_OUTPUT_DIR})
+    set_tests_properties(actor_integration_test PROPERTIES
+        ENVIRONMENT "PROTOACTOR_TEST=1"
+        LABELS "integration;module:actor"
+    )
+    if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(actor_integration_test PRIVATE --coverage)
+        target_link_libraries(actor_integration_test --coverage)
+    endif()
+
+    add_executable(performance_test tests/functional/performance_test.cpp)
+    target_include_directories(performance_test PRIVATE ${CMAKE_SOURCE_DIR})
+    target_link_libraries(performance_test protoactor-cpp)
+    set_target_properties(performance_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR})
+    add_test(NAME performance_test COMMAND performance_test WORKING_DIRECTORY ${TEST_OUTPUT_DIR})
+    set_tests_properties(performance_test PROPERTIES
+        ENVIRONMENT "PROTOACTOR_TEST=1"
+        LABELS "performance"
+    )
+    if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(performance_test PRIVATE --coverage)
+        target_link_libraries(performance_test --coverage)
+    endif()
+
+    message(STATUS "Unit tests (by module): pid, config, platform, queue, pidset, priority_queue, messages, thread_pool, dispatcher, extensions, props, eventstream")
+    message(STATUS "Run by module: ctest -L 'module:<name>' (e.g. ctest -L 'module:pid'); all unit: ctest -L unit")
 endif()
 
 # Installation

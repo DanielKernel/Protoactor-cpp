@@ -157,7 +157,7 @@ int main() {
 
 ## 文档
 
-- [构建指南](BUILD_GUIDE.md) - 完整的构建、依赖安装、跨架构编译和gRPC集成说明
+- [构建指南](docs/BUILD_GUIDE.md) - 完整的构建、依赖安装、跨架构编译和 gRPC 集成说明
 
 ## 许可证
 

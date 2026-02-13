@@ -60,8 +60,11 @@ static SpawnFunc defaultSpawner = [](std::shared_ptr<ActorSystem> actor_system,
     return {pid, std::error_code()};
 };
 
-// Default values
-static std::shared_ptr<Dispatcher> defaultDispatcher = NewDefaultDispatcher(300);
+// Default values (lazy to avoid creating thread pool during static init in tests)
+static std::shared_ptr<Dispatcher>& getDefaultDispatcher() {
+    static std::shared_ptr<Dispatcher> d = NewDefaultDispatcher(300);
+    return d;
+}
 static MailboxProducer defaultMailboxProducer = Unbounded();
 static std::shared_ptr<SupervisorStrategy> defaultSupervisionStrategy = DefaultSupervisorStrategy();
 
@@ -108,7 +111,7 @@ SpawnFunc Props::GetSpawner() const {
 }
 
 std::shared_ptr<Dispatcher> Props::GetDispatcher() const {
-    return dispatcher_ ? dispatcher_ : defaultDispatcher;
+    return dispatcher_ ? dispatcher_ : getDefaultDispatcher();
 }
 
 std::shared_ptr<SupervisorStrategy> Props::GetSupervisor() const {

@@ -36,3 +36,10 @@ conaninfo.txt
 
 # Vcpkg
 vcpkg_installed/
+
+# Coverage / test artifacts (do not archive)
+*.gcov
+*.gcno
+*.gcda
+build_cov/
+coverage/

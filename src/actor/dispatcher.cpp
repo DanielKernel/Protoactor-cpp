@@ -1,48 +1,48 @@
 #include "protoactor/dispatcher.h"
-#include <thread>
+#include "protoactor/thread_pool.h"
 #include <functional>
 #include <iostream>
 
 namespace protoactor {
 
-// Default dispatcher implementation
+// Default dispatcher implementation: schedules work onto a thread pool
 class DefaultDispatcherImpl : public Dispatcher {
 public:
-    explicit DefaultDispatcherImpl(int throughput) : throughput_(throughput) {}
-    
+    DefaultDispatcherImpl(int throughput, std::shared_ptr<ThreadPool> pool)
+        : throughput_(throughput),
+          pool_(pool ? pool : DefaultThreadPool()) {}
+
     void Schedule(std::function<void()> fn) override {
-        // Create a thread and detach it
-        // Note: In production, we would use a thread pool
-        std::thread([fn]() {
+        if (!pool_ || pool_->IsShutdown()) return;
+        pool_->Submit([fn]() {
             try {
                 fn();
             } catch (const std::exception& e) {
-                // Log exception but don't crash
-                std::cerr << "Dispatcher thread exception: " << e.what() << std::endl;
+                std::cerr << "Dispatcher task exception: " << e.what() << std::endl;
             } catch (...) {
-                // Swallow other exceptions to prevent thread crash
-                std::cerr << "Dispatcher thread unknown exception" << std::endl;
+                std::cerr << "Dispatcher task unknown exception" << std::endl;
             }
-        }).detach();
+        });
     }
-    
+
     int Throughput() const override {
         return throughput_;
     }
 
 private:
     int throughput_;
+    std::shared_ptr<ThreadPool> pool_;
 };
 
 // Synchronized dispatcher implementation
 class SynchronizedDispatcherImpl : public Dispatcher {
 public:
     explicit SynchronizedDispatcherImpl(int throughput) : throughput_(throughput) {}
-    
+
     void Schedule(std::function<void()> fn) override {
         fn(); // Execute synchronously
     }
-    
+
     int Throughput() const override {
         return throughput_;
     }
@@ -51,8 +51,8 @@ private:
     int throughput_;
 };
 
-std::shared_ptr<Dispatcher> NewDefaultDispatcher(int throughput) {
-    return std::make_shared<DefaultDispatcherImpl>(throughput);
+std::shared_ptr<Dispatcher> NewDefaultDispatcher(int throughput, std::shared_ptr<ThreadPool> pool) {
+    return std::make_shared<DefaultDispatcherImpl>(throughput, pool);
 }
 
 std::shared_ptr<Dispatcher> NewSynchronizedDispatcher(int throughput) {
