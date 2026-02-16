@@ -67,7 +67,12 @@ public:
      * @return Process and whether it was found
      */
     std::pair<std::shared_ptr<Process>, bool> GetLocal(const std::string& id);
-    
+
+    /**
+     * @brief Clear all processes from the registry.
+     */
+    void Clear();
+
     /**
      * @brief Register an address resolver for remote addresses.
      * @param resolver Resolver function

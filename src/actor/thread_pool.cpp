@@ -14,7 +14,7 @@ namespace protoactor {
 
 class ThreadPool::Impl {
 public:
-    explicit Impl(std::size_t num_threads) : stop_(false), stop_now_(false) {
+    explicit Impl(std::size_t num_threads) : stop_(false), stop_now_(false), shutdown_called_(false) {
         if (num_threads == 0) {
             num_threads = static_cast<std::size_t>(std::max(1, platform::GetCPUCount()));
         }
@@ -25,7 +25,22 @@ public:
     }
 
     ~Impl() {
-        Shutdown();
+        // Don't call Shutdown() in destructor during static cleanup
+        // to avoid joining threads that have already been destroyed.
+        // Users should call Shutdown() explicitly.
+        if (!shutdown_called_) {
+            // Try to clean up gracefully, but don't join if already destroyed
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                stop_ = true;
+                stop_now_ = true;
+                cv_.notify_all();
+            }
+            // Detach threads instead of joining to avoid Bus error during static destruction
+            for (std::thread& t : workers_) {
+                if (t.joinable()) t.detach();
+            }
+        }
     }
 
     void Submit(std::function<void()> task) {
@@ -41,6 +56,7 @@ public:
             std::lock_guard<std::mutex> lock(mutex_);
             if (stop_) return;
             stop_ = true;
+            shutdown_called_ = true;
             cv_.notify_all();
         }
         for (std::thread& t : workers_) {
@@ -51,8 +67,10 @@ public:
     void ShutdownNow() {
         {
             std::lock_guard<std::mutex> lock(mutex_);
+            if (stop_) return;
             stop_now_ = true;
             stop_ = true;
+            shutdown_called_ = true;
             while (!queue_.empty()) queue_.pop();
             cv_.notify_all();
         }
@@ -108,6 +126,7 @@ private:
     std::queue<std::function<void()>> queue_;
     std::atomic<bool> stop_;
     std::atomic<bool> stop_now_;
+    std::atomic<bool> shutdown_called_;
     std::vector<std::thread> workers_;
 };
 
@@ -140,13 +159,7 @@ bool ThreadPool::IsShutdown() const {
 }
 
 std::shared_ptr<ThreadPool> DefaultThreadPool() {
-    static std::shared_ptr<ThreadPool> pool = []() {
-        std::shared_ptr<ThreadPool> p = std::make_shared<ThreadPool>(0);
-        if (std::getenv("PROTOACTOR_TEST") == nullptr) {
-            std::atexit([]() { DefaultThreadPool()->Shutdown(); });
-        }
-        return p;
-    }();
+    static std::shared_ptr<ThreadPool> pool = std::make_shared<ThreadPool>(0);
     return pool;
 }
 

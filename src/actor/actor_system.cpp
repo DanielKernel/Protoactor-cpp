@@ -86,6 +86,19 @@ std::shared_ptr<PID> ActorSystem::NewLocalPID(const std::string& id) {
 
 void ActorSystem::Shutdown() {
     stopped_.store(true);
+
+    // Clear process registry
+    if (process_registry_) {
+        process_registry_->Clear();
+    }
+
+    // Clear references to internal components
+    // Note: The shared_ptr reference counting will handle cleanup
+    // when the ActorSystem itself is destroyed
+    event_stream_.reset();
+    guardians_.reset();
+    dead_letter_.reset();
+    extensions_.reset();
 }
 
 bool ActorSystem::IsStopped() const {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Linux build script for ProtoActor C++
-# Supports ARM and x86 architectures on Linux servers
+# Unified build script for ProtoActor C++
+# Supports macOS and Linux (ARM64 and x86_64)
 
 set -e
 
@@ -16,7 +16,7 @@ BUILD_TYPE="Release"
 TARGET_ARCH=""
 CLEAN=false
 EXAMPLES=true
-TESTS=false
+TESTS=true
 PROTOBUF=false
 
 # Parse arguments
@@ -55,6 +55,10 @@ while [[ $# -gt 0 ]]; do
             TESTS=true
             shift
             ;;
+        --no-tests)
+            TESTS=false
+            shift
+            ;;
         --protobuf)
             PROTOBUF=true
             shift
@@ -67,7 +71,8 @@ while [[ $# -gt 0 ]]; do
             echo "  --arch ARCH      Target architecture (x86_64, arm64)"
             echo "  --examples       Build examples (default: on)"
             echo "  --no-examples    Don't build examples"
-            echo "  --tests          Build tests"
+            echo "  --tests          Build tests (default: on)"
+            echo "  --no-tests       Don't build tests"
             echo "  --protobuf       Enable Protobuf support"
             echo "  --help           Show this help message"
             exit 0
@@ -78,6 +83,21 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# Detect platform
+PLATFORM=$(uname -s)
+case $PLATFORM in
+    Darwin)
+        PLATFORM_NAME="macOS"
+        ;;
+    Linux)
+        PLATFORM_NAME="Linux"
+        ;;
+    *)
+        echo -e "${RED}Error: Unsupported platform $PLATFORM${NC}"
+        exit 1
+        ;;
+esac
 
 # Detect current architecture if not specified (64-bit only)
 if [ -z "$TARGET_ARCH" ]; then
@@ -96,13 +116,8 @@ if [ -z "$TARGET_ARCH" ]; then
     esac
 fi
 
-# Verify we're on Linux
-if [ "$(uname -s)" != "Linux" ]; then
-    echo -e "${RED}Error: This build script only supports Linux${NC}"
-    exit 1
-fi
-
 echo -e "${GREEN}Building ProtoActor C++${NC}"
+echo "Platform: $PLATFORM_NAME"
 echo "Build type: $BUILD_TYPE"
 echo "Target architecture: $TARGET_ARCH"
 echo "Build examples: $EXAMPLES"
@@ -110,17 +125,13 @@ echo "Build tests: $TESTS"
 echo "Protobuf: $PROTOBUF"
 echo ""
 
-# Create build directory
-BUILD_DIR="build-${TARGET_ARCH}-${BUILD_TYPE}"
-mkdir -p "$BUILD_DIR"
-
-# Clean if requested
+# Create build directory (unified naming)
+BUILD_DIR="build"
 if [ "$CLEAN" = true ]; then
     echo -e "${YELLOW}Cleaning build directory...${NC}"
     rm -rf "$BUILD_DIR"
-    mkdir -p "$BUILD_DIR"
 fi
-
+mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
 # Configure CMake
@@ -150,10 +161,20 @@ cmake .. "${CMAKE_ARGS[@]}"
 
 # Build
 echo -e "${GREEN}Building...${NC}"
-cmake --build . -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
+# Get CPU count for parallel build (works on both macOS and Linux)
+if [ "$PLATFORM" = "Darwin" ]; then
+    CPU_COUNT=$(sysctl -n hw.ncpu)
+else
+    CPU_COUNT=$(nproc 2>/dev/null || echo 4)
+fi
+cmake --build . -j"$CPU_COUNT"
 
 echo -e "${GREEN}Build completed successfully!${NC}"
 echo "Build directory: $BUILD_DIR"
 if [ "$EXAMPLES" = true ]; then
     echo "Examples are in: $BUILD_DIR/bin"
+fi
+if [ "$TESTS" = true ]; then
+    echo "Tests are in: $BUILD_DIR/tests"
+    echo "Run tests: cd $BUILD_DIR && ctest --output-on-failure"
 fi

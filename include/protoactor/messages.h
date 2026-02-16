@@ -10,6 +10,7 @@
 #include <system_error>
 #include <unordered_map>
 #include <vector>
+#include <cstdint>
 
 namespace protoactor {
 
@@ -35,20 +36,28 @@ public:
 
 /**
  * @brief Message envelope containing header, message, and sender.
+ * Uses a magic number to identify itself when cast from void*.
  */
 struct MessageEnvelope {
+    // Magic number to identify MessageEnvelope when cast from void*
+    static constexpr uint64_t MAGIC = 0x454E56454C4F5045ULL; // "ENVELOPE" in hex
+
+    uint64_t magic = MAGIC;
     std::shared_ptr<ReadonlyMessageHeader> header;
     std::shared_ptr<void> message;
     std::shared_ptr<PID> sender;
-    
+
     MessageEnvelope();
     MessageEnvelope(
         std::shared_ptr<ReadonlyMessageHeader> h,
         std::shared_ptr<void> m,
         std::shared_ptr<PID> s);
-    
+
     std::string GetHeader(const std::string& key) const;
     void SetHeader(const std::string& key, const std::string& value);
+
+    // Check if a void* pointer points to a valid MessageEnvelope
+    static bool IsEnvelope(const std::shared_ptr<void>& ptr);
 };
 
 /**

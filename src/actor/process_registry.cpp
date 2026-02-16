@@ -109,14 +109,21 @@ std::pair<std::shared_ptr<Process>, bool> ProcessRegistry::Get(std::shared_ptr<P
 std::pair<std::shared_ptr<Process>, bool> ProcessRegistry::GetLocal(const std::string& id) {
     int bucket = GetBucket(id);
     std::lock_guard<std::mutex> lock(shard_mutexes_[bucket]);
-    
+
     auto& shard = local_pids_[bucket];
     auto it = shard.find(id);
     if (it == shard.end()) {
         return {actor_system_->GetDeadLetter(), false};
     }
-    
+
     return {it->second, true};
+}
+
+void ProcessRegistry::Clear() {
+    for (int i = 0; i < NUM_SHARDS; ++i) {
+        std::lock_guard<std::mutex> lock(shard_mutexes_[i]);
+        local_pids_[i].clear();
+    }
 }
 
 void ProcessRegistry::RegisterAddressResolver(AddressResolver resolver) {

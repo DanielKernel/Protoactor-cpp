@@ -45,14 +45,16 @@ static SpawnFunc defaultSpawner = [](std::shared_ptr<ActorSystem> actor_system,
     
     // Start mailbox
     mailbox->Start();
-    
+
     // Send Started message
     // Note: PostSystemMessage will schedule processing, which may be synchronous
     // For async dispatcher, this should be fine
     // For sync dispatcher, we need to ensure mailbox is ready
+    // Wrap Started in an envelope so it can be properly unwrapped in Message()
     auto started = std::make_shared<Started>();
-    mailbox->PostSystemMessage(started);
-    
+    auto started_envelope = WrapEnvelope(started);
+    mailbox->PostSystemMessage(started_envelope);
+
     // For async dispatcher, the message will be processed in a separate thread
     // For sync dispatcher, we need to ensure the actor is ready before processing
     // The mailbox will handle scheduling
@@ -62,7 +64,7 @@ static SpawnFunc defaultSpawner = [](std::shared_ptr<ActorSystem> actor_system,
 
 // Default values (lazy to avoid creating thread pool during static init in tests)
 static std::shared_ptr<Dispatcher>& getDefaultDispatcher() {
-    static std::shared_ptr<Dispatcher> d = NewDefaultDispatcher(300);
+    static std::shared_ptr<Dispatcher> d = NewDefaultDispatcher(300, nullptr);
     return d;
 }
 static MailboxProducer defaultMailboxProducer = Unbounded();

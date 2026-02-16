@@ -340,18 +340,10 @@ void ActorContext::ProcessMessage(std::shared_ptr<void> message) {
 
 void ActorContext::DefaultReceive() {
     auto msg = Message();
-    
-    // Try to cast to PoisonPill (unsafe but necessary)
-    // In a full implementation, we would use type information
-    if (msg) {
-        auto poison = std::dynamic_pointer_cast<protoactor::PoisonPill>(
-            std::static_pointer_cast<protoactor::SystemMessage>(msg));
-        if (poison) {
-            Stop(self_);
-            return;
-        }
-    }
-    
+
+    // Note: PoisonPill handling is done in InvokeSystemMessage
+    // We can't safely cast from void* with multiple inheritance
+
     // Use receiver middleware chain if available
     if (props_ && props_->receiver_middleware_chain_) {
         auto envelope = WrapEnvelope(message_or_envelope_);
@@ -368,74 +360,76 @@ void ActorContext::InvokeSystemMessage(std::shared_ptr<void> message) {
     if (!message) {
         return;
     }
-    
-    // Unwrap envelope if needed
+
+    // Unwrap envelope if present (for messages like Started that need to be
+    // delivered to the user actor but are sent through the system mailbox)
+    std::shared_ptr<void> actual_message = message;
     auto [header, msg, sender] = UnwrapEnvelope(message);
-    if (!msg) {
-        msg = message; // Fallback to original message
+    if (msg) {
+        actual_message = msg;  // Unwrapped message for type checking
     }
-    
+
     // Try to identify message type by attempting casts
     // Note: This is unsafe but necessary for now
     // In a full implementation, we would use type information or RTTI
-    
+
     // First, try to cast to SystemMessage
-    auto sys_msg = std::static_pointer_cast<protoactor::SystemMessage>(msg);
+    auto sys_msg = std::static_pointer_cast<protoactor::SystemMessage>(actual_message);
     if (!sys_msg) {
         return; // Not a system message
     }
-    
+
     // Try Started
     auto started = std::dynamic_pointer_cast<protoactor::Started>(sys_msg);
     if (started) {
         // Started is an AutoReceiveMessage, so process it as a user message
-        // But use the unwrapped message, not the envelope
-        ProcessMessage(msg);
+        // Use the original message (envelope) so Message() can properly unwrap it
+        ProcessMessage(message);
         return;
     }
-    
+
     // Try Watch
     auto watch = std::dynamic_pointer_cast<protoactor::Watch>(sys_msg);
     if (watch && watch->watcher) {  // Check for valid Watch structure
         HandleWatch(watch);
         return;
     }
-    
+
     // Try Unwatch
     auto unwatch = std::dynamic_pointer_cast<protoactor::Unwatch>(sys_msg);
     if (unwatch && unwatch->watcher) {
         HandleUnwatch(unwatch);
         return;
     }
-    
+
     // Try Stop
     auto stop = std::dynamic_pointer_cast<protoactor::Stop>(sys_msg);
     if (stop) {
         HandleStop();
         return;
     }
-    
+
     // Try Terminated
     auto terminated = std::dynamic_pointer_cast<protoactor::Terminated>(sys_msg);
     if (terminated && terminated->who) {
         HandleTerminated(terminated);
         return;
     }
-    
+
     // Try Failure
     auto failure = std::dynamic_pointer_cast<protoactor::Failure>(sys_msg);
     if (failure && failure->who) {
         HandleFailure(failure);
         return;
     }
-    
+
     // Try Restart
     auto restart = std::dynamic_pointer_cast<protoactor::Restart>(sys_msg);
     if (restart) {
         HandleRestart();
         return;
     }
-    
+
     // Try Continuation
     auto continuation = std::dynamic_pointer_cast<protoactor::Continuation>(sys_msg);
     if (continuation && continuation->continuation) {

@@ -10,15 +10,15 @@ public:
         auto it = headers_.find(key);
         return it != headers_.end() ? it->second : std::string();
     }
-    
+
     bool Contains(const std::string& key) const override {
         return headers_.find(key) != headers_.end();
     }
-    
+
     void Set(const std::string& key, const std::string& value) override {
         headers_[key] = value;
     }
-    
+
     std::vector<std::string> Keys() const override {
         std::vector<std::string> keys;
         keys.reserve(headers_.size());
@@ -27,11 +27,11 @@ public:
         }
         return keys;
     }
-    
+
     int Length() const override {
         return static_cast<int>(headers_.size());
     }
-    
+
     std::unordered_map<std::string, std::string> ToMap() const override {
         return headers_;
     }
@@ -42,14 +42,14 @@ private:
 
 // MessageEnvelope implementation
 MessageEnvelope::MessageEnvelope()
-    : header(nullptr), message(nullptr), sender(nullptr) {
+    : magic(MAGIC), header(nullptr), message(nullptr), sender(nullptr) {
 }
 
 MessageEnvelope::MessageEnvelope(
     std::shared_ptr<ReadonlyMessageHeader> h,
     std::shared_ptr<void> msg,
     std::shared_ptr<PID> snd)
-    : header(h), message(msg), sender(snd) {
+    : magic(MAGIC), header(h), message(msg), sender(snd) {
 }
 
 std::string MessageEnvelope::GetHeader(const std::string& key) const {
@@ -68,22 +68,27 @@ void MessageEnvelope::SetHeader(const std::string& key, const std::string& value
     }
 }
 
+bool MessageEnvelope::IsEnvelope(const std::shared_ptr<void>& ptr) {
+    if (!ptr) {
+        return false;
+    }
+    // Use static_pointer_cast to access the magic field
+    // This is safe because we're only reading the first field
+    auto envelope = std::static_pointer_cast<MessageEnvelope>(ptr);
+    return envelope->magic == MAGIC;
+}
+
 // Helper functions
 std::shared_ptr<MessageEnvelope> WrapEnvelope(std::shared_ptr<void> message) {
     if (!message) {
         return nullptr;
     }
-    
-    // Try to cast to MessageEnvelope first
-    // If it's already an envelope, return it
-    // Note: We use static_cast because we can't use dynamic_cast on void*
-    // This is unsafe but necessary for type erasure
-    // In full implementation, we would use type information
-    auto envelope = std::static_pointer_cast<MessageEnvelope>(message);
-    if (envelope) {
-        return envelope;
+
+    // Check if it's already an envelope using the magic number
+    if (MessageEnvelope::IsEnvelope(message)) {
+        return std::static_pointer_cast<MessageEnvelope>(message);
     }
-    
+
     // Otherwise, wrap it in a new envelope
     return std::make_shared<MessageEnvelope>(nullptr, message, nullptr);
 }
@@ -93,30 +98,13 @@ UnwrapEnvelope(std::shared_ptr<void> message) {
     if (!message) {
         return std::make_tuple(nullptr, nullptr, nullptr);
     }
-    
-    // Try to cast to MessageEnvelope
-    // Note: We use static_cast because we can't use dynamic_cast on void*
-    // This is unsafe but necessary for type erasure
-    // In full implementation, we would use type information
-    // Since all messages sent through SendUserMessage are wrapped in MessageEnvelope,
-    // we can safely assume it's an envelope if the cast succeeds
-    try {
+
+    // Check if it's an envelope using the magic number
+    if (MessageEnvelope::IsEnvelope(message)) {
         auto envelope = std::static_pointer_cast<MessageEnvelope>(message);
-        // Try to access envelope members to verify it's actually a MessageEnvelope
-        // This is a heuristic check - in full implementation, we would use type information
-        if (envelope && (envelope->header || envelope->message || envelope->sender)) {
-            // It's an envelope, extract the message, header, and sender
-            return std::make_tuple(envelope->header, envelope->message, envelope->sender);
-        }
-        // If envelope exists but all members are null, it might still be an envelope
-        // (empty envelope), so return it
-        if (envelope) {
-            return std::make_tuple(envelope->header, envelope->message, envelope->sender);
-        }
-    } catch (...) {
-        // Cast failed, not an envelope
+        return std::make_tuple(envelope->header, envelope->message, envelope->sender);
     }
-    
+
     // Not an envelope, assume it's a raw message
     return std::make_tuple(nullptr, message, nullptr);
 }
