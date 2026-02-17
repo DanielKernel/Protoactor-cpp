@@ -22,4 +22,6 @@ python3 scripts/perf/aggregate_results.py
 
 结果目录：`perf_results/`，其中包含每次运行的 `stdout.log`、`stderr.log`、`stats.csv`（时间序列采样）以及根 `summary.csv`（汇总）。
 
+**注意**：`perf_results/` 目录是生成的构建产物，已添加到 `.gitignore` 中，不会提交到代码仓库。每次运行性能测试时，脚本会自动生成这些结果文件。
+
 在 GitHub Actions 中，运行完成后会把 `perf_results` 上传为名为 `perf-results` 的构件，方便下载与分析。
