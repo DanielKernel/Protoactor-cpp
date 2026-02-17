@@ -4,11 +4,7 @@
 
 - **操作系统**: Linux (Ubuntu, Debian, CentOS, RHEL, Fedora等)
 - **架构**: x86_64 或 ARM64 (仅支持64位)
-- **编译器**: GCC 4.8+ 或 Clang 3.3+
-- **CMake**: 3.10+
 - **依赖库**: pthread (系统自带)
-
-## 依赖项说明
 
 ### 核心原则
 
@@ -24,6 +20,39 @@ ProtoActor C++采用**"使用成熟开源库，专注核心逻辑"**的策略：
 |---|---|---|
 | **pthread** | 线程支持 | ✅ 系统自带 |
 | **C++11标准库** | 基础功能 | ✅ 编译器自带 |
+注意：本仓库的 `build.sh` 已内置对 `--arch arm64` 的支持：
+
+- 会尝试使用 `aarch64-linux-gnu-gcc` / `aarch64-linux-gnu-g++` 作为交叉编译器（若系统已安装）。
+- 如果未找到交叉编译器，脚本会给出提示并继续使用主机编译器（这通常不会生成有效的 ARM64 二进制）。
+- 为了避免在交叉编译时错误地链接到宿主（x86_64）版本的第三方库（例如 Conda 下的 `libspdlog`），脚本在交叉编译模式下会默认禁用 `spdlog`（等价于 `-DENABLE_SPDLOG=OFF`）。如果你需要在目标平台上使用 `spdlog`，请在目标环境或使用适当的交叉库路径重新启用并提供 ARM64 版本的库。
+
+快速使用脚本交叉编译示例：
+
+```bash
+# 安装交叉编译器（Ubuntu/Debian）
+sudo apt-get update
+sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+# 使用仓库自带的脚本进行交叉编译
+./build.sh --arch arm64
+```
+
+### CI: 使用 `CROSS_ARM64` 环境变量进行交叉构建
+
+仓库提供的 `scripts/ci_tests.sh` 支持在 CI 中执行交叉构建。示例命令（在仓库根目录）：
+
+```bash
+CROSS_ARM64=1 ./scripts/ci_tests.sh build/ci_arm64
+```
+
+脚本行为要点：
+- 会尝试使用或安装 `aarch64-linux-gnu-gcc` / `aarch64-linux-gnu-g++` 作为交叉编译器。
+- 交叉构建模式下默认禁用 `spdlog`（等价于 `-DENABLE_SPDLOG=OFF`），以避免错误地链接宿主架构的第三方库。
+- 构建完成后脚本**不会**在 x86_64 主机上运行交叉生成的测试；脚本会在构建后跳过 `ctest`，从而避免在主机上执行 ARM64 二进制。
+- 如果需要在 CI 中运行交叉生成的测试，请在 ARM64 runner 上执行，或在 CI 中使用 QEMU 仿真运行测试。
+
+如果要在交叉构建中启用 `spdlog`，请为目标平台提供相应的第三方库（通过 `CMAKE_PREFIX_PATH`、vcpkg 或 conan），并在 CMake 配置中显式启用 `-DENABLE_SPDLOG=ON`。
+
 
 #### 可选依赖（功能增强）
 

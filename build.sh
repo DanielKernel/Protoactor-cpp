@@ -157,7 +157,18 @@ CMAKE_ARGS=(
 # Set architecture-specific flags (64-bit only)
 case $TARGET_ARCH in
     arm64)
-        CMAKE_ARGS+=(-DCMAKE_SYSTEM_PROCESSOR=aarch64)
+        CMAKE_ARGS+=(-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64)
+        # If cross-compilers are available, use them for proper ARM64 cross-build
+        AARCH64_GCC=$(command -v aarch64-linux-gnu-gcc || true)
+        AARCH64_GXX=$(command -v aarch64-linux-gnu-g++ || true)
+        if [ -n "$AARCH64_GCC" ] && [ -n "$AARCH64_GXX" ]; then
+            CMAKE_ARGS+=( -DCMAKE_C_COMPILER="$AARCH64_GCC" -DCMAKE_CXX_COMPILER="$AARCH64_GXX" )
+        else
+            echo -e "${YELLOW}Warning: aarch64 cross-compilers not found. Attempting native compiler which may not produce ARM64 binaries.${NC}"
+            echo -e "${YELLOW}Install 'gcc-aarch64-linux-gnu' and 'g++-aarch64-linux-gnu' for proper cross compilation.${NC}"
+        fi
+        # When cross-compiling, avoid linking against host (x86_64) libraries (e.g. Conda's spdlog)
+        CMAKE_ARGS+=( -DENABLE_SPDLOG=OFF )
         ;;
     x86_64)
         CMAKE_ARGS+=(-DCMAKE_SYSTEM_PROCESSOR=x86_64)

@@ -6,14 +6,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Platform detection (64-bit only)
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
+# Prefer explicit CMake system processor, but also detect from compiler when cross-compiling
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "arm64" 
+   OR CMAKE_CXX_COMPILER MATCHES "aarch64" OR CMAKE_CXX_COMPILER MATCHES "aarch64-linux-gnu")
     set(PLATFORM_ARM64 ON)
     message(STATUS "Building for ARM64 architecture")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "amd64")
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "amd64" 
+       OR CMAKE_CXX_COMPILER MATCHES "x86_64" OR CMAKE_CXX_COMPILER MATCHES "x86_64-linux-gnu")
     set(PLATFORM_X86_64 ON)
     message(STATUS "Building for x86_64 architecture")
 else()
-    message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}. Only x86_64 and ARM64 are supported.")
+    message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR} / ${CMAKE_CXX_COMPILER}. Only x86_64 and ARM64 are supported.")
 endif()
 
 # Options
