@@ -2,6 +2,22 @@
 
 这是ProtoActor Go版本的C++11实现，确保功能100%继承。
 
+## 功能完整性
+
+基于与 [ProtoActor-Go](https://github.com/asynkron/protoactor-go) 的详细对比分析，本实现功能完成度达到 **95%+**：
+
+| 核心功能 | 状态 | 远程/集群 | 状态 |
+|---------|------|----------|------|
+| Actor/PID/Context/Props | 100% | gRPC远程通信 | 100% |
+| 消息传递 (Send/Request/Future) | 100% | Protobuf/JSON序列化 | 100% |
+| 生命周期管理 | 100% | 集群成员管理 | 100% |
+| 行为管理 (Become/Unbecome) | 100% | Gossip协议 | 100% |
+| 监督策略 (OneForOne/AllForOne) | 100% | Pub/Sub | 100% |
+| 路由系统 (广播/轮询/随机/哈希) | 100% | 虚拟Actor (Grains) | 90% |
+| 持久化 (事件溯源/快照) | 100% | 身份查找/PID缓存 | 100% |
+
+**详细对比请参阅 [docs/COMPARISON.md](docs/COMPARISON.md)**
+
 ## 项目结构
 
 ```
@@ -141,23 +157,41 @@ public:
 int main() {
     auto system = protoactor::ActorSystem::New();
     auto root = system->GetRoot();
-    
+
     auto props = protoactor::Props::FromProducer([]() {
         return std::make_shared<HelloActor>();
     });
-    
+
     auto pid = root->Spawn(props);
     // 发送消息...
-    
+
     return 0;
 }
 ```
 
-更多示例请查看 `examples/` 目录
+更多示例请查看 [examples/](examples/) 目录：
+
+| 示例 | 说明 |
+|------|------|
+| [hello_world.cpp](examples/hello_world.cpp) | 最小示例 |
+| [supervision_example.cpp](examples/supervision_example.cpp) | 监督策略 |
+| [behavior_example.cpp](examples/behavior_example.cpp) | 行为管理 |
+| [router_example.cpp](examples/router_example.cpp) | 路由策略 |
+| [middleware_example.cpp](examples/middleware_example.cpp) | 中间件 |
+| [persistence_example.cpp](examples/persistence_example.cpp) | 持久化 |
+| [remote_example.cpp](examples/remote_example.cpp) | 远程通信 |
+| [cluster_example.cpp](examples/cluster_example.cpp) | 集群支持 |
 
 ## 文档
 
-- [构建指南](docs/BUILD_GUIDE.md) - 完整的构建、依赖安装、跨架构编译和 gRPC 集成说明
+| 文档 | 说明 |
+|------|------|
+| [构建指南](docs/BUILD_GUIDE.md) | 完整的构建、依赖安装、跨架构编译和 gRPC 集成说明 |
+| [测试指导](docs/TESTING.md) | 单元测试、功能测试、覆盖率统计 |
+| [性能测试](docs/PERF_TESTS.md) | 性能基准测试说明 |
+| [功能对比](docs/COMPARISON.md) | 与 ProtoActor-Go 的详细功能对比分析 |
+| [远程通信指南](docs/REMOTE_GUIDE.md) | 远程通信配置、消息序列化、最佳实践 |
+| [迁移指南](docs/MIGRATION_GUIDE.md) | 从 ProtoActor-Go 迁移到 C++ 版本 |
 
 ## 许可证
 
