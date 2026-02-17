@@ -44,3 +44,6 @@ vcpkg_installed/
 *.gcda
 build_cov/
 coverage/
+
+# Performance test results (generated artifacts)
+perf_results/

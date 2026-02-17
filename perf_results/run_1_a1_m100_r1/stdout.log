@@ -1,3 +1,0 @@
-Perf benchmark: actors=1 messages=100
-Total messages expected=100 received=101
-Elapsed seconds=0.000581535
