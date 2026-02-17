@@ -9,9 +9,11 @@
 | [BUILD_GUIDE.md](BUILD_GUIDE.md) | 构建指南：依赖、编译、跨架构、选项、验证、常见问题 |
 | [TESTING.md](TESTING.md) | 测试指导：脚本用法、单元/功能测试、覆盖率、常见问题 |
 | [PERF_TESTS.md](PERF_TESTS.md) | 性能测试：基准测试说明、运行方法 |
+| [BENCHMARK.md](BENCHMARK.md) | **性能对比**：与 ProtoActor-Go 及其他框架的性能基准测试对比 |
 | [COMPARISON.md](COMPARISON.md) | **功能对比**：与 ProtoActor-Go 的详细功能对比分析 |
 | [REMOTE_GUIDE.md](REMOTE_GUIDE.md) | **远程通信指南**：gRPC配置、消息序列化、最佳实践 |
 | [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) | **迁移指南**：从 ProtoActor-Go 迁移到 C++ 版本 |
+| [API_REFERENCE.md](API_REFERENCE.md) | **API参考**：完整的 C++ API 文档 |
 
 ## 功能完成度概览
 

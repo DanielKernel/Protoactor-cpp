@@ -14,6 +14,7 @@
 | [persistence_example.cpp](persistence_example.cpp) | 持久化：事件溯源和快照 | Persistence | Protobuf |
 | [remote_example.cpp](remote_example.cpp) | 远程通信：节点间消息传递、远程Actor创建 | Remote | gRPC |
 | [cluster_example.cpp](cluster_example.cpp) | 集群：成员管理、Gossip协议、虚拟Actor | Cluster | gRPC |
+| [pubsub_example.cpp](pubsub_example.cpp) | 发布订阅：集群级消息广播 | PubSub | gRPC |
 | [perf_benchmark.cpp](perf_benchmark.cpp) | 性能基准测试 | - | 无 |
 
 ## 构建运行

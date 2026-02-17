@@ -181,6 +181,7 @@ int main() {
 | [persistence_example.cpp](examples/persistence_example.cpp) | 持久化 |
 | [remote_example.cpp](examples/remote_example.cpp) | 远程通信 |
 | [cluster_example.cpp](examples/cluster_example.cpp) | 集群支持 |
+| [pubsub_example.cpp](examples/pubsub_example.cpp) | 发布订阅 |
 
 ## 文档
 
@@ -189,9 +190,11 @@ int main() {
 | [构建指南](docs/BUILD_GUIDE.md) | 完整的构建、依赖安装、跨架构编译和 gRPC 集成说明 |
 | [测试指导](docs/TESTING.md) | 单元测试、功能测试、覆盖率统计 |
 | [性能测试](docs/PERF_TESTS.md) | 性能基准测试说明 |
+| [性能对比](docs/BENCHMARK.md) | 与 ProtoActor-Go 及其他框架的性能对比 |
 | [功能对比](docs/COMPARISON.md) | 与 ProtoActor-Go 的详细功能对比分析 |
 | [远程通信指南](docs/REMOTE_GUIDE.md) | 远程通信配置、消息序列化、最佳实践 |
 | [迁移指南](docs/MIGRATION_GUIDE.md) | 从 ProtoActor-Go 迁移到 C++ 版本 |
+| [API参考](docs/API_REFERENCE.md) | 完整的 C++ API 文档 |
 
 ## 许可证
 
