@@ -309,8 +309,12 @@ if(BUILD_EXAMPLES)
     add_executable(supervision_example examples/supervision_example.cpp)
     target_link_libraries(supervision_example protoactor-cpp)
     
+    # Performance benchmark example (spawn N actors, send M messages each)
+    add_executable(perf_benchmark examples/perf_benchmark.cpp)
+    target_link_libraries(perf_benchmark protoactor-cpp)
+    
     # Set output directory
-    set_target_properties(hello_world supervision_example
+    set_target_properties(hello_world supervision_example perf_benchmark
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     )

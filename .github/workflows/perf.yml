@@ -1,0 +1,42 @@
+name: Performance Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Install performance monitoring tools
+        run: |
+          sudo apt-get install -y sysstat python3-pip
+          pip3 install --quiet matplotlib pandas
+
+      - name: Run performance tests
+        run: |
+          chmod +x scripts/perf/run_perf_tests.sh
+          # Run with 2 repeats for CI (faster), custom actor/message counts
+          scripts/perf/run_perf_tests.sh "1,10,100" "100,1000,10000" 2
+
+      - name: Aggregate results and generate plots
+        run: |
+          python3 scripts/perf/aggregate_results.py
+        if: success() || failure()
+
+      - name: Upload perf results
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: perf-results
+          path: perf_results
