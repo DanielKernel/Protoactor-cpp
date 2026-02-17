@@ -7,6 +7,7 @@
 #include <chrono>
 #include <thread>
 #include <cstdio>
+#include <stdexcept>
 
 using namespace protoactor;
 using namespace protoactor::test;

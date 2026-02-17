@@ -264,6 +264,37 @@ file build-*/bin/hello_world
 ./scripts/run_unit_tests.sh --configure   # 首次配置并运行全部单元测试
 ./scripts/run_unit_tests.sh              # 之后直接运行单元测试
 ./scripts/ci_tests.sh                    # CI 用：配置+构建+单元测试
+
+## Conda 环境与运行时库冲突
+
+在一些使用 Conda 的开发环境中，系统可能会优先加载 Conda 提供的 `libstdc++.so.6`，而该库版本与系统编译器预期的符号版本不匹配（例如缺少 `GLIBCXX_3.4.30` / `GLIBCXX_3.4.32`），导致运行测试或示例时出现类似错误：
+
+```
+/opt/conda/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found
+```
+
+为避免此类运行时问题，可以选择下面任一方案：
+
+- 临时在本地运行测试时使用系统库：
+
+```bash
+cd build
+env LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu ctest --output-on-failure
+```
+
+- 在构建脚本/CI 中清理 Conda 路径并禁止 CMake 将非系统路径写入 RUNPATH（推荐在 CI 中使用）。本仓库已在 `build.sh` 与 `scripts/ci_tests.sh` 中增加保护措施：
+
+  - 清理 `LD_LIBRARY_PATH` 中的 `/opt/conda/lib` 条目并 `unset LD_RUN_PATH`。
+  - 在 CMake 配置时传入：`-DCMAKE_SKIP_RPATH=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=OFF -DCMAKE_INSTALL_RPATH=""`，避免将非系统路径嵌入到二进制的 RUNPATH 中。
+
+- 如果你不能修改环境变量，可以在构建产物上用 `patchelf` 修改或移除 RUNPATH（高级选项）：
+
+```bash
+sudo apt-get install -y patchelf
+patchelf --remove-rpath build/tests/* build/bin/*
+```
+
+在 CI 中建议清理环境变量（即脚本中移除或过滤掉 `/opt/conda`），或在构建前设置 `LD_LIBRARY_PATH` 指向系统库以保证运行时使用与编译器一致的 `libstdc++`。
 ```
 
 ## 常见问题

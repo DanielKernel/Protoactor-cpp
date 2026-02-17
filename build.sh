@@ -134,12 +134,24 @@ fi
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
+# Sanitize environment to avoid embedding non-system library paths (e.g. Conda)
+# Remove /opt/conda from LD_LIBRARY_PATH if present and unset LD_RUN_PATH
+if [ -n "${LD_LIBRARY_PATH:-}" ]; then
+    # filter out any /opt/conda paths
+    NEW_LD_PATH="$(echo "$LD_LIBRARY_PATH" | awk -v RS=: -v ORS=: '/\/opt\/conda\/lib/ {next} {print}' | sed 's/:$//')"
+    export LD_LIBRARY_PATH="$NEW_LD_PATH"
+fi
+unset LD_RUN_PATH
+
 # Configure CMake
 CMAKE_ARGS=(
     -DCMAKE_BUILD_TYPE="$BUILD_TYPE"
     -DBUILD_EXAMPLES="$EXAMPLES"
     -DBUILD_TESTS="$TESTS"
     -DENABLE_PROTOBUF="$PROTOBUF"
+    -DCMAKE_SKIP_RPATH=ON
+    -DCMAKE_BUILD_WITH_INSTALL_RPATH=OFF
+    -DCMAKE_INSTALL_RPATH=""
 )
 
 # Set architecture-specific flags (64-bit only)

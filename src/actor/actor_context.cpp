@@ -9,6 +9,7 @@
 #include "protoactor/scheduler/timer.h"
 #include "protoactor/deadletter.h" // Include DeadLetterProcess header
 #include <stdexcept>
+#include <algorithm>
 
 namespace protoactor {
 

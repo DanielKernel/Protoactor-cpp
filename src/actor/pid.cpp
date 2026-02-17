@@ -49,8 +49,5 @@ void PID::ClearCache() {
     process_ptr_.store(nullptr, std::memory_order_release);
 }
 
-std::shared_ptr<PID> NewPID(const std::string& address, const std::string& id) {
-    return std::make_shared<PID>(address, id);
-}
 
 } // namespace protoactor

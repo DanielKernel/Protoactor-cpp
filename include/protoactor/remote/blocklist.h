@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <vector>
 #include <mutex>
+#include <memory>
 #ifdef __cpp_lib_shared_mutex
 #include <shared_mutex> // For std::shared_mutex (C++14+)
 #else
