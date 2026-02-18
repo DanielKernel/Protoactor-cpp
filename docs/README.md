@@ -11,6 +11,7 @@
 | [PERF_TESTS.md](PERF_TESTS.md) | 性能测试：基准测试说明、运行方法 |
 | [BENCHMARK.md](BENCHMARK.md) | **性能对比**：与 ProtoActor-Go 及其他框架的性能基准测试对比 |
 | [COMPARISON.md](COMPARISON.md) | **功能对比**：与 ProtoActor-Go 的详细功能对比分析 |
+| [FRAMEWORK_COMPARISON.md](FRAMEWORK_COMPARISON.md) | **框架对比**：与 Akka、Orleans、Erlang/OTP 等主流框架的详细对比 |
 | [REMOTE_GUIDE.md](REMOTE_GUIDE.md) | **远程通信指南**：gRPC配置、消息序列化、最佳实践 |
 | [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) | **迁移指南**：从 ProtoActor-Go 迁移到 C++ 版本 |
 | [API_REFERENCE.md](API_REFERENCE.md) | **API参考**：完整的 C++ API 文档 |
@@ -30,4 +31,4 @@
 | 路由系统 | 100% |
 | 持久化 | 100% |
 
-**总体完成度: 95%+** - 核心功能与 ProtoActor-Go 完全对齐
+**总体完成度: 100%** - 核心功能与 ProtoActor-Go 完全对齐，文档完整

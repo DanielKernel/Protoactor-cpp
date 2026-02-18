@@ -8,6 +8,7 @@
 |------|------|------|
 | **tests/unit/** | 单元测试用例 | 按模块的单测，不依赖完整 Actor 运行时；见 [tests/unit/README.md](unit/README.md) |
 | **tests/functional/** | 功能测试用例 | 集成测试、性能测试；见 [tests/functional/README.md](functional/README.md) |
+| **tests/integration/** | 集成测试用例 | 远程/集群模块的集成测试 |
 | **tests/test_common.h** | 测试公共头文件 | 断言与 `run_test`，供 unit/functional 共用 |
 
 `.gcov` 等覆盖率结果文件已加入 `.gitignore`，**不归档**到版本库。
@@ -52,6 +53,7 @@
 ### 集成与性能测试
 
 - **actor_integration_test**（标签 `integration`、`module:actor`）— ActorSystem、Spawn、Send。
+- **remote_cluster_integration_test**（标签 `integration`、`module:remote`、`module:cluster`）— 远程通信与集群集成测试，验证远程Actor、成员管理、故障转移、Pub/Sub等场景。
 - **performance_test**（标签 `performance`）— 线程池/Dispatcher/Actor 吞吐基准（建议 Release 构建）。
 
 ## 按需运行不同模块
