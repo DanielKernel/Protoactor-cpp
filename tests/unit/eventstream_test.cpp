@@ -1,7 +1,7 @@
 /**
  * Unit tests for EventStream module: New, Subscribe, Publish, Unsubscribe, Length.
  */
-#include "protoactor/eventstream.h"
+#include "external/eventstream.h"
 #include "tests/test_common.h"
 #include <atomic>
 #include <cstdio>

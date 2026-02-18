@@ -1,9 +1,9 @@
-#include "protoactor/internal/cluster/pubsub.h"
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/internal/cluster/pubsub_delivery.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
-#include "protoactor/messages.h"
+#include "internal/cluster/pubsub.h"
+#include "external/cluster/cluster.h"
+#include "internal/cluster/pubsub_delivery.h"
+#include "external/actor_system.h"
+#include "external/props.h"
+#include "external/messages.h"
 #include <algorithm>
 #include <unordered_map>
 

@@ -1,9 +1,9 @@
-#include "protoactor/internal/actor/deadletter.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/internal/process_registry.h"
-#include "protoactor/eventstream.h"
-#include "protoactor/messages.h"
-#include "protoactor/pid.h"
+#include "internal/actor/deadletter.h"
+#include "external/actor_system.h"
+#include "internal/process_registry.h"
+#include "external/eventstream.h"
+#include "external/messages.h"
+#include "external/pid.h"
 #include <iostream>
 
 namespace protoactor {

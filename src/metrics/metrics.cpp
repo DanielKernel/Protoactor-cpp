@@ -1,4 +1,4 @@
-#include "protoactor/internal/metrics/metrics.h"
+#include "internal/metrics/metrics.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>

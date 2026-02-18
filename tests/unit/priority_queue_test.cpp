@@ -1,7 +1,7 @@
 /**
  * Unit tests for PriorityQueue module.
  */
-#include "protoactor/internal/queue/priority_queue.h"
+#include "internal/queue/priority_queue.h"
 #include "tests/test_common.h"
 #include <atomic>
 #include <chrono>

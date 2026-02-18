@@ -12,11 +12,11 @@
  *   props := actor.PropsFromProducer(NewWorker).WithRouter(router.NewRoundRobinPool(5))
  */
 
-#include "protoactor/actor.h"
-#include "protoactor/context.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
-#include "protoactor/router/router.h"
+#include "external/actor.h"
+#include "external/context.h"
+#include "external/actor_system.h"
+#include "external/props.h"
+#include "external/router/router.h"
 #include <iostream>
 #include <memory>
 #include <thread>

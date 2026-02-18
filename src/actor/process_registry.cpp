@@ -1,9 +1,9 @@
-#include "protoactor/internal/process_registry.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/internal/process.h"
-#include "protoactor/pid.h"
-#include "protoactor/internal/actor/deadletter.h"
-#include "protoactor/internal/actor/new_pid.h"
+#include "internal/process_registry.h"
+#include "external/actor_system.h"
+#include "internal/process.h"
+#include "external/pid.h"
+#include "internal/actor/deadletter.h"
+#include "internal/actor/new_pid.h"
 #include <cstring>
 #include <sstream>
 #include <iomanip>

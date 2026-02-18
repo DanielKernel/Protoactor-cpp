@@ -1,7 +1,7 @@
-#include "protoactor/internal/stream.h"
-#include "protoactor/actor.h"
-#include "protoactor/props.h"
-#include "protoactor/messages.h"
+#include "internal/stream.h"
+#include "external/actor.h"
+#include "external/props.h"
+#include "external/messages.h"
 #include <queue>
 #include <mutex>
 #include <condition_variable>

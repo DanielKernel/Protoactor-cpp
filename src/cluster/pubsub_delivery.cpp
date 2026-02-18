@@ -1,7 +1,7 @@
-#include "protoactor/internal/cluster/pubsub_delivery.h"
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/future.h"
-#include "protoactor/messages.h"
+#include "internal/cluster/pubsub_delivery.h"
+#include "external/cluster/cluster.h"
+#include "external/future.h"
+#include "external/messages.h"
 #include <algorithm>
 
 namespace protoactor {

@@ -1,5 +1,5 @@
-#include "protoactor/internal/thread_pool.h"
-#include "protoactor/internal/platform.h"
+#include "internal/thread_pool.h"
+#include "internal/platform.h"
 #include <queue>
 #include <thread>
 #include <mutex>

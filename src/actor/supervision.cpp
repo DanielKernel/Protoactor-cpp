@@ -1,6 +1,6 @@
-#include "protoactor/supervision.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/pid.h"
+#include "external/supervision.h"
+#include "external/actor_system.h"
+#include "external/pid.h"
 #include <chrono>
 
 namespace protoactor {

@@ -1,7 +1,7 @@
-#include "protoactor/internal/remote/remote_process.h"
-#include "protoactor/remote/remote.h"
-#include "protoactor/internal/remote/endpoint_manager.h"
-#include "protoactor/messages.h"
+#include "internal/remote/remote_process.h"
+#include "external/remote/remote.h"
+#include "internal/remote/endpoint_manager.h"
+#include "external/messages.h"
 #include <memory>
 
 namespace protoactor {

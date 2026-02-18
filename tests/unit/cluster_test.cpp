@@ -4,11 +4,11 @@
  * NOTE: These tests verify the interface and basic functionality.
  * Full integration tests require gRPC and should be run separately.
  */
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/cluster/member_list.h"
-#include "protoactor/cluster/member.h"
-#include "protoactor/cluster/pubsub.h"
-#include "protoactor/pid.h"
+#include "external/cluster/cluster.h"
+#include "external/cluster/member_list.h"
+#include "external/cluster/member.h"
+#include "external/cluster/pubsub.h"
+#include "external/pid.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

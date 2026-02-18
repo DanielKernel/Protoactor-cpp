@@ -1,6 +1,6 @@
-#include "protoactor/internal/remote/activator_actor.h"
-#include "protoactor/remote/remote.h"
-#include "protoactor/messages.h"
+#include "internal/remote/activator_actor.h"
+#include "external/remote/remote.h"
+#include "external/messages.h"
 #include <stdexcept>
 
 namespace protoactor {

@@ -1,5 +1,5 @@
-#include "protoactor/internal/actor/deduplication_context.h"
-#include "protoactor/internal/log.h"
+#include "internal/actor/deduplication_context.h"
+#include "internal/log.h"
 #include <chrono>
 #include <mutex>
 

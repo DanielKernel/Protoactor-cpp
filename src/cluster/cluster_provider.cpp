@@ -1,6 +1,6 @@
-#include "protoactor/internal/cluster/cluster_provider.h"
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/internal/cluster/member.h"
+#include "internal/cluster/cluster_provider.h"
+#include "external/cluster/cluster.h"
+#include "internal/cluster/member.h"
 #include <thread>
 #include <chrono>
 #include <sstream>

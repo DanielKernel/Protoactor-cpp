@@ -1,10 +1,10 @@
 /**
  * Unit tests for Props module: FromProducer, WithDispatcher, GetDispatcher.
  */
-#include "protoactor/props.h"
-#include "protoactor/actor.h"
-#include "protoactor/context.h"
-#include "protoactor/dispatcher.h"
+#include "external/props.h"
+#include "external/actor.h"
+#include "external/context.h"
+#include "external/dispatcher.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

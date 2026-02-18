@@ -1,10 +1,10 @@
-#include "protoactor/internal/cluster/identity_lookup.h"
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/internal/cluster/member_list.h"
-#include "protoactor/internal/cluster/member.h"
-#include "protoactor/internal/cluster/pid_cache.h"
-#include "protoactor/remote/remote.h"
-#include "protoactor/future.h"
+#include "internal/cluster/identity_lookup.h"
+#include "external/cluster/cluster.h"
+#include "internal/cluster/member_list.h"
+#include "internal/cluster/member.h"
+#include "internal/cluster/pid_cache.h"
+#include "external/remote/remote.h"
+#include "external/future.h"
 #include <stdexcept>
 
 namespace protoactor {

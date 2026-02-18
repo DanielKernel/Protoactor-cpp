@@ -4,10 +4,10 @@
  * NOTE: These tests verify the interface and basic functionality.
  * Full integration tests require gRPC and should be run separately.
  */
-#include "protoactor/remote/remote.h"
-#include "protoactor/remote/blocklist.h"
-#include "protoactor/pid.h"
-#include "protoactor/props.h"
+#include "external/remote/remote.h"
+#include "external/remote/blocklist.h"
+#include "external/pid.h"
+#include "external/props.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

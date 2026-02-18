@@ -1,10 +1,10 @@
 /**
  * Integration tests for ActorSystem: spawn, send, receive.
  */
-#include "protoactor/actor.h"
-#include "protoactor/context.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
+#include "external/actor.h"
+#include "external/context.h"
+#include "external/actor_system.h"
+#include "external/props.h"
 #include "tests/test_common.h"
 #include <atomic>
 #include <chrono>

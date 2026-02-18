@@ -1,4 +1,4 @@
-#include "protoactor/internal/queue.h"
+#include "internal/queue.h"
 #include <queue>
 #include <mutex>
 

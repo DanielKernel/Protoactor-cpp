@@ -1,9 +1,9 @@
-#include "protoactor/internal/remote/grpc_service.h"
-#include "protoactor/remote/remote.h"
-#include "protoactor/internal/remote/endpoint_reader.h"
-#include "protoactor/internal/remote/serializer.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/internal/process_registry.h"
+#include "internal/remote/grpc_service.h"
+#include "external/remote/remote.h"
+#include "internal/remote/endpoint_reader.h"
+#include "internal/remote/serializer.h"
+#include "external/actor_system.h"
+#include "internal/process_registry.h"
 #include <stdexcept>
 
 namespace protoactor {

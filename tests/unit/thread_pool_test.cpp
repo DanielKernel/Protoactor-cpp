@@ -1,7 +1,7 @@
 /**
  * Unit tests for ThreadPool: submit, shutdown, drain, exceptions, metrics.
  */
-#include "protoactor/internal/thread_pool.h"
+#include "internal/thread_pool.h"
 #include "tests/test_common.h"
 #include <atomic>
 #include <chrono>

@@ -1,4 +1,4 @@
-#include "protoactor/config.h"
+#include "external/config.h"
 
 namespace protoactor {
 

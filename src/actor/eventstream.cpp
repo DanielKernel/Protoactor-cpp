@@ -1,4 +1,4 @@
-#include "protoactor/eventstream.h"
+#include "external/eventstream.h"
 #include <algorithm>
 
 namespace protoactor {

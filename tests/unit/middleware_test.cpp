@@ -2,9 +2,9 @@
  * Unit tests for Middleware module: ReceiverMiddleware, SenderMiddleware,
  * SpawnMiddleware, and ContextDecorator chains.
  */
-#include "protoactor/props.h"
-#include "protoactor/middleware_chain.h"
-#include "protoactor/messages.h"
+#include "external/props.h"
+#include "external/middleware_chain.h"
+#include "external/messages.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

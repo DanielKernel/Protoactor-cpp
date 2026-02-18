@@ -1,5 +1,5 @@
-#include "protoactor/dispatcher.h"
-#include "protoactor/internal/thread_pool.h"
+#include "external/dispatcher.h"
+#include "internal/thread_pool.h"
 #include <functional>
 #include <iostream>
 

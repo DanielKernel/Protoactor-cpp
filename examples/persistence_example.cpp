@@ -16,11 +16,11 @@
  * requires ENABLE_PROTOBUF to be enabled for Protobuf message support.
  */
 
-#include "protoactor/actor.h"
-#include "protoactor/context.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
-#include "protoactor/messages.h"
+#include "external/actor.h"
+#include "external/context.h"
+#include "external/actor_system.h"
+#include "external/props.h"
+#include "external/messages.h"
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -29,7 +29,7 @@
 #include <vector>
 
 #ifdef ENABLE_PROTOBUF
-#include "protoactor/persistence.h"
+#include "external/persistence.h"
 #endif
 
 // ============================================================================

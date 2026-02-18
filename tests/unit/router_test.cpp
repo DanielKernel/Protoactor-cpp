@@ -2,8 +2,8 @@
  * Unit tests for Router module: BroadcastRouter, RoundRobinRouter,
  * RandomRouter, and ConsistentHashRouter.
  */
-#include "protoactor/router/router.h"
-#include "protoactor/pid.h"
+#include "external/router/router.h"
+#include "external/pid.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

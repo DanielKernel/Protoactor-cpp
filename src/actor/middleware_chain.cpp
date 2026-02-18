@@ -1,5 +1,5 @@
-#include "protoactor/props.h"
-#include "protoactor/messages.h"
+#include "external/props.h"
+#include "external/messages.h"
 #include <algorithm>
 
 namespace protoactor {

@@ -1,5 +1,5 @@
-#include "protoactor/internal/actor/new_pid.h"
-#include "protoactor/pid.h"
+#include "internal/actor/new_pid.h"
+#include "external/pid.h"
 
 namespace protoactor {
 

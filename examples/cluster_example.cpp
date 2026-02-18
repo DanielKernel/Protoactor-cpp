@@ -17,11 +17,11 @@
  * Build with: cmake .. -DENABLE_GRPC=ON -DENABLE_PROTOBUF=ON
  */
 
-#include "protoactor/actor.h"
-#include "protoactor/context.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
-#include "protoactor/messages.h"
+#include "external/actor.h"
+#include "external/context.h"
+#include "external/actor_system.h"
+#include "external/props.h"
+#include "external/messages.h"
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -29,9 +29,9 @@
 #include <string>
 
 #ifdef ENABLE_GRPC
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/cluster/member_list.h"
-#include "protoactor/cluster/gossiper.h"
+#include "external/cluster/cluster.h"
+#include "external/cluster/member_list.h"
+#include "external/cluster/gossiper.h"
 
 // Message types
 struct Hello {

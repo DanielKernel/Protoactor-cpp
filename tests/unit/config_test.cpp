@@ -1,7 +1,7 @@
 /**
  * Unit tests for Config module.
  */
-#include "protoactor/config.h"
+#include "external/config.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <chrono>

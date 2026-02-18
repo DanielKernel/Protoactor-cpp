@@ -1,7 +1,7 @@
-#include "protoactor/internal/actor/guardian.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
-#include "protoactor/supervision.h"
+#include "internal/actor/guardian.h"
+#include "external/actor_system.h"
+#include "external/props.h"
+#include "external/supervision.h"
 #include <memory>
 
 namespace protoactor {

@@ -1,8 +1,8 @@
 /**
  * Unit tests for Messages module (lifecycle/control types, envelope, header, Wrap/Unwrap).
  */
-#include "protoactor/messages.h"
-#include "protoactor/pid.h"
+#include "external/messages.h"
+#include "external/pid.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

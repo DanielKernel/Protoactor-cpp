@@ -1,7 +1,7 @@
 /**
  * Unit tests for PID module.
  */
-#include "protoactor/pid.h"
+#include "external/pid.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

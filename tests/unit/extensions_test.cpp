@@ -1,7 +1,7 @@
 /**
  * Unit tests for Extensions module: New, Register, Get, NextExtensionID.
  */
-#include "protoactor/extensions.h"
+#include "external/extensions.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

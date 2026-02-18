@@ -1,6 +1,6 @@
-#include "protoactor/router/router.h"
-#include "protoactor/context.h"
-#include "protoactor/pid.h"
+#include "external/router/router.h"
+#include "external/context.h"
+#include "external/pid.h"
 #include <random>
 #include <algorithm>
 #include <cstddef>

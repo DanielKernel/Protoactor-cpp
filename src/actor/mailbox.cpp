@@ -1,8 +1,8 @@
-#include "protoactor/internal/mailbox.h"
-#include "protoactor/internal/queue.h"
-#include "protoactor/dispatcher.h"
-#include "protoactor/messages.h"
-#include "protoactor/internal/actor/actor_context.h"
+#include "internal/mailbox.h"
+#include "internal/queue.h"
+#include "external/dispatcher.h"
+#include "external/messages.h"
+#include "internal/actor/actor_context.h"
 #include <atomic>
 #include <thread>
 

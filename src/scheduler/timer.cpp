@@ -1,6 +1,6 @@
-#include "protoactor/internal/scheduler/timer.h"
-#include "protoactor/context.h"
-#include "protoactor/pid.h"
+#include "internal/scheduler/timer.h"
+#include "external/context.h"
+#include "external/pid.h"
 #include <thread>
 #include <chrono>
 #include <atomic>

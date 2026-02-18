@@ -1,12 +1,12 @@
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/internal/cluster/member_list.h"
-#include "protoactor/internal/cluster/cluster_topology.h"
-#include "protoactor/internal/cluster/pid_cache.h"
-#include "protoactor/internal/cluster/gossiper.h"
-#include "protoactor/internal/cluster/pubsub.h"
-#include "protoactor/remote/remote.h"
-#include "protoactor/messages.h"
-#include "protoactor/extensions.h"
+#include "external/cluster/cluster.h"
+#include "internal/cluster/member_list.h"
+#include "internal/cluster/cluster_topology.h"
+#include "internal/cluster/pid_cache.h"
+#include "internal/cluster/gossiper.h"
+#include "internal/cluster/pubsub.h"
+#include "external/remote/remote.h"
+#include "external/messages.h"
+#include "external/extensions.h"
 #include <stdexcept>
 
 namespace protoactor {

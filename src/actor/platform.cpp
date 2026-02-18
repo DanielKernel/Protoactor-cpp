@@ -1,4 +1,4 @@
-#include "protoactor/internal/platform.h"
+#include "internal/platform.h"
 #include <thread>
 #include <unistd.h>
 #ifdef __linux__

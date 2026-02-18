@@ -1,11 +1,11 @@
-#include "protoactor/internal/remote/endpoint_reader.h"
-#include "protoactor/remote/remote.h"
-#include "protoactor/internal/remote/endpoint_manager.h"
-#include "protoactor/internal/remote/serializer.h"
-#include "protoactor/internal/remote/messages.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/internal/process_registry.h"
-#include "protoactor/messages.h"
+#include "internal/remote/endpoint_reader.h"
+#include "external/remote/remote.h"
+#include "internal/remote/endpoint_manager.h"
+#include "internal/remote/serializer.h"
+#include "internal/remote/messages.h"
+#include "external/actor_system.h"
+#include "internal/process_registry.h"
+#include "external/messages.h"
 #include <stdexcept>
 
 namespace protoactor {

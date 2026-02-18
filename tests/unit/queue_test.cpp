@@ -1,7 +1,7 @@
 /**
  * Unit tests for Queue module (unbounded + MPSC).
  */
-#include "protoactor/internal/queue.h"
+#include "internal/queue.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

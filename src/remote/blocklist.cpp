@@ -1,4 +1,4 @@
-#include "protoactor/internal/remote/blocklist.h"
+#include "internal/remote/blocklist.h"
 #include <algorithm>
 #include <memory>
 #ifdef __cpp_lib_shared_mutex

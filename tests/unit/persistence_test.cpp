@@ -2,7 +2,7 @@
  * Unit tests for Persistence module: InMemoryProvider, EventStore,
  * and SnapshotStore interfaces.
  */
-#include "protoactor/persistence.h"
+#include "external/persistence.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

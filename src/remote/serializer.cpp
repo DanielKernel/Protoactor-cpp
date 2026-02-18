@@ -1,4 +1,4 @@
-#include "protoactor/internal/remote/serializer.h"
+#include "internal/remote/serializer.h"
 #include <stdexcept>
 
 namespace protoactor {

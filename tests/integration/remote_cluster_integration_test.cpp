@@ -9,16 +9,16 @@
  * tests with actual gRPC connections should be run separately.
  */
 
-#include "protoactor/actor.h"
-#include "protoactor/context.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
-#include "protoactor/pid.h"
-#include "protoactor/remote/remote.h"
-#include "protoactor/remote/blocklist.h"
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/cluster/member.h"
-#include "protoactor/cluster/member_list.h"
+#include "external/actor.h"
+#include "external/context.h"
+#include "external/actor_system.h"
+#include "external/props.h"
+#include "external/pid.h"
+#include "external/remote/remote.h"
+#include "external/remote/blocklist.h"
+#include "external/cluster/cluster.h"
+#include "external/cluster/member.h"
+#include "external/cluster/member_list.h"
 #include "tests/test_common.h"
 #include <atomic>
 #include <chrono>

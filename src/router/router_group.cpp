@@ -1,6 +1,6 @@
-#include "protoactor/internal/router/router_group.h"
-#include "protoactor/context.h"
-#include "protoactor/props.h"
+#include "internal/router/router_group.h"
+#include "external/context.h"
+#include "external/props.h"
 #include <algorithm>
 
 namespace protoactor {

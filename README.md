@@ -22,7 +22,7 @@
 
 ```
 protoactor-cpp/
-├── include/protoactor/     # 头文件
+├── include/external/     # 头文件
 │   ├── actor.h             # Actor接口
 │   ├── pid.h               # Process Identifier
 │   ├── context.h           # Actor上下文

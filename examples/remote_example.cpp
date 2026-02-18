@@ -22,11 +22,11 @@
  * Build with: cmake .. -DENABLE_GRPC=ON -DENABLE_PROTOBUF=ON
  */
 
-#include "protoactor/actor.h"
-#include "protoactor/context.h"
-#include "protoactor/actor_system.h"
-#include "protoactor/props.h"
-#include "protoactor/messages.h"
+#include "external/actor.h"
+#include "external/context.h"
+#include "external/actor_system.h"
+#include "external/props.h"
+#include "external/messages.h"
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -35,7 +35,7 @@
 
 // Only compile remote code if gRPC is enabled
 #ifdef ENABLE_GRPC
-#include "protoactor/remote/remote.h"
+#include "external/remote/remote.h"
 
 // Message types for remote communication
 // In a real application, these would be defined in .proto files

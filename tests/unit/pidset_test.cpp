@@ -1,8 +1,8 @@
 /**
  * Unit tests for PIDSet module.
  */
-#include "protoactor/internal/pidset.h"
-#include "protoactor/pid.h"
+#include "internal/pidset.h"
+#include "external/pid.h"
 #include "tests/test_common.h"
 #include <cstdio>
 #include <memory>

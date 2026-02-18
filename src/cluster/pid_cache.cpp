@@ -1,5 +1,5 @@
-#include "protoactor/internal/cluster/pid_cache.h"
-#include "protoactor/internal/cluster/member.h"
+#include "internal/cluster/pid_cache.h"
+#include "internal/cluster/member.h"
 #include <algorithm>
 
 namespace protoactor {

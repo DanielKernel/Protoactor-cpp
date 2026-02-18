@@ -1,6 +1,6 @@
-#include "protoactor/internal/cluster/gossip.h"
-#include "protoactor/cluster/cluster.h"
-#include "protoactor/internal/cluster/member_list.h"
+#include "internal/cluster/gossip.h"
+#include "external/cluster/cluster.h"
+#include "internal/cluster/member_list.h"
 #include <algorithm>
 #include <random>
 #include <chrono>

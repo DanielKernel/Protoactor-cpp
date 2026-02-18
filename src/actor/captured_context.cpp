@@ -1,5 +1,5 @@
-#include "protoactor/internal/actor/captured_context.h"
-#include "protoactor/context.h"
+#include "internal/actor/captured_context.h"
+#include "external/context.h"
 
 namespace protoactor {
 

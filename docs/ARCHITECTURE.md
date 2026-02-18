@@ -278,7 +278,7 @@
 
 ```
 protoactor-cpp/
-├── include/protoactor/          # 头文件
+├── include/external/          # 头文件
 │   ├── actor.h                  # Actor 基类
 │   ├── context.h                # 上下文接口
 │   ├── pid.h                    # 进程标识符

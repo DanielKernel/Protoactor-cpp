@@ -1,4 +1,4 @@
-#include "protoactor/internal/queue/priority_queue.h"
+#include "internal/queue/priority_queue.h"
 #include <algorithm>
 
 namespace protoactor {

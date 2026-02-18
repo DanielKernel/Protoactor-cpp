@@ -1,7 +1,7 @@
-#include "protoactor/testprobe.h"
-#include "protoactor/actor.h"
-#include "protoactor/props.h"
-#include "protoactor/messages.h"
+#include "external/testprobe.h"
+#include "external/actor.h"
+#include "external/props.h"
+#include "external/messages.h"
 #include <thread>
 #include <chrono>
 #include <mutex>
