@@ -22,13 +22,13 @@ jobs:
 
       - name: Run performance tests
         run: |
-          chmod +x scripts/perf/run_perf_tests.sh
+          chmod +x tests/scripts/perf/run_perf_tests.sh
           # Run with 2 repeats for CI (faster), custom actor/message counts
-          scripts/perf/run_perf_tests.sh "1,10,100" "100,1000,10000" 2
+          tests/scripts/perf/run_perf_tests.sh "1,10,100" "100,1000,10000" 2
 
       - name: Aggregate results and generate plots
         run: |
-          python3 scripts/perf/aggregate_results.py
+          python3 tests/scripts/perf/aggregate_results.py
         if: success() || failure()
 
       - name: Upload perf results

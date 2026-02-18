@@ -2,7 +2,7 @@
 #include "protoactor/process_registry.h"
 #include "protoactor/context.h"
 #include "protoactor/root_context.h"
-#include "protoactor/eventstream/eventstream.h"
+#include "protoactor/eventstream.h"
 #include "protoactor/deadletter.h"
 #include "protoactor/guardian.h"
 #include "protoactor/extensions.h"

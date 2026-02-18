@@ -6,7 +6,7 @@
 #include "protoactor/supervision.h"
 #include "protoactor/captured_context.h"
 #include "protoactor/new_pid.h"
-#include "protoactor/scheduler/timer.h"
+#include "protoactor/timer.h"
 #include "protoactor/deadletter.h" // Include DeadLetterProcess header
 #include <stdexcept>
 #include <algorithm>

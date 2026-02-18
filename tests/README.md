@@ -9,6 +9,7 @@
 | **tests/unit/** | 单元测试用例 | 按模块的单测，不依赖完整 Actor 运行时；见 [tests/unit/README.md](unit/README.md) |
 | **tests/functional/** | 功能测试用例 | 集成测试、性能测试；见 [tests/functional/README.md](functional/README.md) |
 | **tests/integration/** | 集成测试用例 | 远程/集群模块的集成测试 |
+| **tests/scripts/** | 测试脚本 | 单元测试、CI测试、覆盖率、性能测试脚本 |
 | **tests/test_common.h** | 测试公共头文件 | 断言与 `run_test`，供 unit/functional 共用 |
 
 `.gcov` 等覆盖率结果文件已加入 `.gitignore`，**不归档**到版本库。
@@ -17,16 +18,17 @@
 
 | 脚本 | 用途 |
 |------|------|
-| `scripts/run_unit_tests.sh` | 单元测试自动化：配置/构建/运行，支持 `--module`、`--quick`、`--coverage` |
-| `scripts/ci_tests.sh` | CI 用：配置+构建+跑单元测试，以退出码表示成败 |
-| `scripts/coverage_report.sh` | 在开启 ENABLE_COVERAGE 并跑完单元测试后，汇总关键代码行覆盖率 |
+| `tests/scripts/run_unit_tests.sh` | 单元测试自动化：配置/构建/运行，支持 `--module`、`--quick`、`--coverage` |
+| `tests/scripts/ci_tests.sh` | CI 用：配置+构建+跑单元测试，以退出码表示成败 |
+| `tests/scripts/coverage_report.sh` | 在开启 ENABLE_COVERAGE 并跑完单元测试后，汇总关键代码行覆盖率 |
+| `tests/scripts/perf/run_perf_tests.sh` | 性能测试批量运行脚本 |
 
 示例（在项目根目录执行）：
 ```bash
-./scripts/run_unit_tests.sh --configure   # 首次配置并跑单元测试
-./scripts/run_unit_tests.sh --module queue
-./scripts/run_unit_tests.sh --quick
-./scripts/ci_tests.sh
+./tests/scripts/run_unit_tests.sh --configure   # 首次配置并跑单元测试
+./tests/scripts/run_unit_tests.sh --module queue
+./tests/scripts/run_unit_tests.sh --quick
+./tests/scripts/ci_tests.sh
 ```
 
 ## 测试分类
@@ -97,8 +99,8 @@ ctest -R "thread_pool_test|dispatcher_test" --output-on-failure -V
   cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DENABLE_COVERAGE=ON
   make -j4
   ctest -L unit
-  # 然后可用 gcov 或 scripts/coverage_report.sh 查看各文件覆盖率
-  ./scripts/coverage_report.sh build_cov
+  # 然后可用 gcov 或 tests/scripts/coverage_report.sh 查看各文件覆盖率
+  ./tests/scripts/coverage_report.sh build_cov
   ```
 - **当前情况**：config、queue、dispatcher、platform、pidset、priority_queue、thread_pool、extensions、props、eventstream 等单元测试可覆盖大部分逻辑，行覆盖率可达 60% 以上。**pid** 中 `Ref`/`SendUserMessage`/`SendSystemMessage`/`ClearCache` 依赖 ActorSystem，仅单元测试时覆盖率较低，需依赖集成测试或后续补充带 ActorSystem 的用例才能提高。**messages** 已通过 MessageEnvelope、GetHeader/SetHeader、WrapEnvelope/UnwrapEnvelope 等用例提升覆盖率。
 - 若需**仅单元测试**即达到 60% 目标，可优先保证上述已覆盖模块的用例稳定，并视情况为 pid 增加带轻量 ActorSystem 的用例（若运行环境支持）。

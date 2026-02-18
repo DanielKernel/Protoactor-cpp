@@ -289,13 +289,13 @@ benchmark:
 
     - name: Compare with Baseline
       run: |
-        python scripts/compare_benchmark.py benchmark_results.txt baseline.txt
+        python tests/scripts/compare_benchmark.py benchmark_results.txt baseline.txt
 ```
 
 ---
 
 ## 参考
 
-- [性能测试脚本](../scripts/perf_test.sh)
+- [性能测试脚本](../tests/scripts/perf/)
 - [性能测试文档](PERF_TESTS.md)
 - [ProtoActor-Go 性能](https://github.com/asynkron/protoactor-go#performance)

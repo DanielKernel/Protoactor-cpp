@@ -39,10 +39,10 @@ sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
 ### CI: 使用 `CROSS_ARM64` 环境变量进行交叉构建
 
-仓库提供的 `scripts/ci_tests.sh` 支持在 CI 中执行交叉构建。示例命令（在仓库根目录）：
+仓库提供的 `tests/scripts/ci_tests.sh` 支持在 CI 中执行交叉构建。示例命令（在仓库根目录）：
 
 ```bash
-CROSS_ARM64=1 ./scripts/ci_tests.sh build/ci_arm64
+CROSS_ARM64=1 ./tests/scripts/ci_tests.sh build/ci_arm64
 ```
 
 脚本行为要点：
@@ -290,9 +290,9 @@ file build-*/bin/hello_world
 
 **运行单元测试**：详见 [TESTING.md](TESTING.md)。在项目根目录可执行：
 ```bash
-./scripts/run_unit_tests.sh --configure   # 首次配置并运行全部单元测试
-./scripts/run_unit_tests.sh              # 之后直接运行单元测试
-./scripts/ci_tests.sh                    # CI 用：配置+构建+单元测试
+./tests/scripts/run_unit_tests.sh --configure   # 首次配置并运行全部单元测试
+./tests/scripts/run_unit_tests.sh              # 之后直接运行单元测试
+./tests/scripts/ci_tests.sh                    # CI 用：配置+构建+单元测试
 
 ## Conda 环境与运行时库冲突
 
@@ -311,7 +311,7 @@ cd build
 env LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu ctest --output-on-failure
 ```
 
-- 在构建脚本/CI 中清理 Conda 路径并禁止 CMake 将非系统路径写入 RUNPATH（推荐在 CI 中使用）。本仓库已在 `build.sh` 与 `scripts/ci_tests.sh` 中增加保护措施：
+- 在构建脚本/CI 中清理 Conda 路径并禁止 CMake 将非系统路径写入 RUNPATH（推荐在 CI 中使用）。本仓库已在 `build.sh` 与 `tests/scripts/ci_tests.sh` 中增加保护措施：
 
   - 清理 `LD_LIBRARY_PATH` 中的 `/opt/conda/lib` 条目并 `unset LD_RUN_PATH`。
   - 在 CMake 配置时传入：`-DCMAKE_SKIP_RPATH=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=OFF -DCMAKE_INSTALL_RPATH=""`，避免将非系统路径嵌入到二进制的 RUNPATH 中。

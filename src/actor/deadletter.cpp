@@ -1,7 +1,7 @@
 #include "protoactor/deadletter.h"
 #include "protoactor/actor_system.h"
 #include "protoactor/process_registry.h"
-#include "protoactor/eventstream/eventstream.h"
+#include "protoactor/eventstream.h"
 #include "protoactor/messages.h"
 #include "protoactor/pid.h"
 #include <iostream>

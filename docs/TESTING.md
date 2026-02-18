@@ -12,17 +12,17 @@
 
 ```bash
 # 首次：配置 + 构建 + 运行全部单元测试
-./scripts/run_unit_tests.sh --configure
+./tests/scripts/run_unit_tests.sh --configure
 
 # 之后仅运行单元测试（需已构建）
-./scripts/run_unit_tests.sh
+./tests/scripts/run_unit_tests.sh
 
 # 只跑核心测试（线程池 + 调度器，适合快速验证）
-./scripts/run_unit_tests.sh --quick
+./tests/scripts/run_unit_tests.sh --quick
 
 # 只跑某一模块
-./scripts/run_unit_tests.sh --module thread_pool
-./scripts/run_unit_tests.sh --module queue
+./tests/scripts/run_unit_tests.sh --module thread_pool
+./tests/scripts/run_unit_tests.sh --module queue
 ```
 
 ### 2. CI 流水线
@@ -30,8 +30,8 @@
 使用 `ci_tests.sh`：自动配置、构建并运行全部单元测试，通过时退出码 0，失败时非 0。
 
 ```bash
-./scripts/ci_tests.sh           # 使用默认 build 目录
-./scripts/ci_tests.sh build_ci  # 指定构建目录
+./tests/scripts/ci_tests.sh           # 使用默认 build 目录
+./tests/scripts/ci_tests.sh build_ci  # 指定构建目录
 ```
 
 ---
@@ -55,14 +55,14 @@
 
 ```bash
 # 带覆盖率构建并跑单元测试，然后可配合 coverage_report.sh 查看覆盖率
-./scripts/run_unit_tests.sh --coverage
-./scripts/coverage_report.sh build_cov
+./tests/scripts/run_unit_tests.sh --coverage
+./tests/scripts/coverage_report.sh build_cov
 
 # 指定构建目录并先配置
-./scripts/run_unit_tests.sh --build-dir build_debug --configure
+./tests/scripts/run_unit_tests.sh --build-dir build_debug --configure
 
 # 只跑 messages 模块并输出详细日志
-./scripts/run_unit_tests.sh --module messages --verbose
+./tests/scripts/run_unit_tests.sh --module messages --verbose
 ```
 
 ### ci_tests.sh（CI 专用）
@@ -74,7 +74,7 @@
 ### coverage_report.sh（覆盖率汇总）
 
 - 在**已用 ENABLE_COVERAGE 构建并执行过单元测试**的前提下，汇总关键源文件的行覆盖率。
-- 用法：`./scripts/coverage_report.sh [build_dir]`，默认 `build_dir=build_cov`。
+- 用法：`./tests/scripts/coverage_report.sh [build_dir]`，默认 `build_dir=build_cov`。
 
 ---
 
@@ -128,13 +128,13 @@ ctest -L unit -V
 1. **生成覆盖率数据**
 
    ```bash
-   ./scripts/run_unit_tests.sh --coverage
+   ./tests/scripts/run_unit_tests.sh --coverage
    ```
 
 2. **查看汇总**
 
    ```bash
-   ./scripts/coverage_report.sh build_cov
+   ./tests/scripts/coverage_report.sh build_cov
    ```
 
 3. **说明**  
@@ -147,14 +147,14 @@ ctest -L unit -V
 **Q: 未设置 PROTOACTOR_TEST=1 会怎样？**  
 A: 默认线程池会注册 atexit，进程退出时可能与静态析构顺序冲突。通过 CTest 或脚本运行时会自动设置该环境变量。
 
-**Q: actor_integration_test / performance_test 崩溃（如 Bus error）？**  
-A: 部分环境（如某些 macOS/沙箱）下 Actor 运行时可能异常。可仅跑单元测试：`ctest -L unit` 或 `./scripts/run_unit_tests.sh`。
+**Q: actor_integration_test / performance_test 崩溃（如 Bus error）？**
+A: 部分环境（如某些 macOS/沙箱）下 Actor 运行时可能异常。可仅跑单元测试：`ctest -L unit` 或 `./tests/scripts/run_unit_tests.sh`。
 
-**Q: 如何只跑某几个模块？**  
-A: 用测试名正则，例如：`ctest -R "unit_pid|unit_queue|thread_pool_test" --output-on-failure`，或多次执行 `./scripts/run_unit_tests.sh --module <name>`。
+**Q: 如何只跑某几个模块？**
+A: 用测试名正则，例如：`ctest -R "unit_pid|unit_queue|thread_pool_test" --output-on-failure`，或多次执行 `./tests/scripts/run_unit_tests.sh --module <name>`。
 
-**Q: 脚本没有执行权限？**  
-A: `chmod +x scripts/run_unit_tests.sh scripts/ci_tests.sh scripts/coverage_report.sh`
+**Q: 脚本没有执行权限？**
+A: `chmod +x tests/scripts/run_unit_tests.sh tests/scripts/ci_tests.sh tests/scripts/coverage_report.sh`
 
 ---
 
@@ -162,8 +162,6 @@ A: `chmod +x scripts/run_unit_tests.sh scripts/ci_tests.sh scripts/coverage_repo
 
 - **tests/README.md**：测试分类、单元/功能目录区分、模块表、覆盖率目标说明。
 - **tests/unit/**：单元测试用例；**tests/functional/**：功能/集成/性能测试用例。
+- **tests/scripts/**：测试脚本目录。
 - **examples/README.md**：使用样例说明（与测试用例区分）。
-- **scripts/run_unit_tests.sh**：单元测试自动化入口。
-- **scripts/ci_tests.sh**：CI 专用脚本。
-- **scripts/coverage_report.sh**：关键代码覆盖率汇总。
 - **docs/BUILD_GUIDE.md**：构建与依赖文档。

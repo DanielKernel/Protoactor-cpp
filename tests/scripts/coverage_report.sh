@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Generate line coverage summary for key sources (unit tests only).
 # Requires: build with -DENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug, then run: ctest -L unit
-# Usage: from project root, run: ./scripts/coverage_report.sh [build_dir]
+# Usage: from project root, run: ./tests/scripts/coverage_report.sh [build_dir]
 # Default build_dir = build_cov
 
 set -e
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 BUILD_DIR="${1:-$ROOT/build_cov}"
 cd "$ROOT"
 

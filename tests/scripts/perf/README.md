@@ -14,10 +14,10 @@
 **使用方法**:
 ```bash
 # 使用默认参数
-./scripts/perf/run_perf_tests.sh
+./tests/scripts/perf/run_perf_tests.sh
 
 # 自定义参数: actors=1,10 messages=100,1000 重复2次
-./scripts/perf/run_perf_tests.sh "1,10" "100,1000" 2
+./tests/scripts/perf/run_perf_tests.sh "1,10" "100,1000" 2
 ```
 
 ### aggregate_results.py
@@ -29,13 +29,13 @@
 
 **使用方法**:
 ```bash
-python3 scripts/perf/aggregate_results.py
+python3 tests/scripts/perf/aggregate_results.py
 ```
 
 ### requirements.txt
 Python 依赖项（用于绘图功能）：
 ```bash
-pip3 install -r scripts/perf/requirements.txt
+pip3 install -r tests/scripts/perf/requirements.txt
 ```
 
 ## 输出目录

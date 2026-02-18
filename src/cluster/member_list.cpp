@@ -3,9 +3,9 @@
 #include "protoactor/cluster/member.h"
 #include "protoactor/cluster/cluster_topology.h"
 #include "protoactor/cluster/gossip.h"
-#include "protoactor/eventstream/eventstream.h"
+#include "protoactor/eventstream.h"
 #include "protoactor/messages.h"
-#include "protoactor/log/log.h"
+#include "protoactor/log.h"
 #include <algorithm>
 
 namespace protoactor {

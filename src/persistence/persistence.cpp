@@ -1,4 +1,4 @@
-#include "protoactor/persistence/persistence.h"
+#include "protoactor/persistence.h"
 #ifdef ENABLE_PROTOBUF
 #include <google/protobuf/message.h>
 #endif

@@ -1,4 +1,4 @@
-#include "protoactor/stream/stream.h"
+#include "protoactor/stream.h"
 #include "protoactor/actor.h"
 #include "protoactor/props.h"
 #include "protoactor/messages.h"

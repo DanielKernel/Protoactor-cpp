@@ -1,4 +1,4 @@
-#include "protoactor/testkit/testprobe.h"
+#include "protoactor/testprobe.h"
 #include "protoactor/actor.h"
 #include "protoactor/props.h"
 #include "protoactor/messages.h"

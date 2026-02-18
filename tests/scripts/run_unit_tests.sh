@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # 单元测试自动化脚本：配置、构建、运行单元测试，可选按模块或带覆盖率。
-# 在项目根目录执行：./scripts/run_unit_tests.sh [选项]
+# 在项目根目录执行：./tests/scripts/run_unit_tests.sh [选项]
 #
 # 选项：
 #   --build-dir DIR    构建目录，默认 build
@@ -15,7 +15,7 @@
 #
 
 set -e
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 BUILD_DIR="$ROOT/build"
 DO_CONFIGURE=""
 DO_COVERAGE=""

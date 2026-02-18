@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
 # CI 用测试脚本：配置、构建、仅运行单元测试，以退出码表示成功/失败。
-# 在项目根目录执行：./scripts/ci_tests.sh [build_dir]
+# 在项目根目录执行：./tests/scripts/ci_tests.sh [build_dir]
 # 默认 build_dir = build
 #
 
 set -e
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 BUILD_DIR="${1:-$ROOT/build}"
 cd "$ROOT"
 

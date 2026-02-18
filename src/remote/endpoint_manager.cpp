@@ -8,7 +8,7 @@
 #include "protoactor/props.h"
 #include "protoactor/supervision.h"
 #include "protoactor/messages.h"
-#include "protoactor/eventstream/eventstream.h"
+#include "protoactor/eventstream.h"
 #include "protoactor/deadletter.h"
 #include "protoactor/future.h"
 #include <thread>

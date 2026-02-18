@@ -29,7 +29,7 @@
 #include <vector>
 
 #ifdef ENABLE_PROTOBUF
-#include "protoactor/persistence/persistence.h"
+#include "protoactor/persistence.h"
 #endif
 
 // ============================================================================
