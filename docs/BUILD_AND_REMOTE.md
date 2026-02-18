@@ -35,7 +35,7 @@ ProtoActor C++采用**"使用成熟开源库，专注核心逻辑"**的策略：
 | **Protobuf** | 消息序列化 | ⭐⭐⭐ 必需（远程功能） | `sudo apt-get install libprotobuf-dev protobuf-compiler` |
 | **spdlog** | 日志系统 | ⭐⭐ 强烈推荐 | 使用vcpkg或从源码编译 |
 | **Google Test** | 测试框架 | ⭐⭐ 强烈推荐 | `sudo apt-get install libgtest-dev` |
-| **nlohmann/json** | JSON支持 | ⭐ 可选 | `sudo apt-get install nlohmann-json3-dev` |
+| **rapidjson** | JSON支持 | ⭐ 可选 | `sudo apt-get install rapidjson-dev` |
 
 ### 快速安装（Ubuntu/Debian）
 
@@ -55,7 +55,7 @@ sudo apt-get install -y \
 sudo apt-get install -y \
     libgtest-dev \
     libgmock-dev \
-    nlohmann-json3-dev
+    rapidjson-dev
 ```
 
 ### 使用vcpkg安装（推荐）
@@ -68,7 +68,7 @@ cd vcpkg
 ./bootstrap-vcpkg.sh
 
 # 2. 安装依赖
-./vcpkg install grpc protobuf spdlog gtest nlohmann-json
+./vcpkg install grpc protobuf spdlog gtest rapidjson
 
 # 3. 配置CMake
 cmake .. \

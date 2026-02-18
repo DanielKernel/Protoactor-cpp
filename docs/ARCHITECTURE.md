@@ -603,7 +603,7 @@ erDiagram
 | 构建系统 | CMake | 3.10+ | 构建配置 | 跨平台构建事实标准 |
 | 远程通信 | gRPC | 1.50+ | RPC 框架 | HTTP/2 支持，高性能，跨语言兼容 |
 | 序列化 | Protobuf | 23+ | 消息编码 | 高效二进制格式，Schema 驱动 |
-| 序列化（可选） | nlohmann/json | 3.11+ | JSON 支持 | 现代化 JSON 库，易用性高 |
+| 序列化（可选） | rapidjson | 1.1+ | JSON 支持 | 高性能 JSON 库，零依赖，header-only |
 | 日志 | spdlog | 1.11+ | 结构化日志 | 高性能异步日志，易用性好 |
 | 测试框架 | 自研轻量框架 | - | 单元测试 | 零外部依赖，与项目集成紧密 |
 | 监控 | 自研 | - | 指标收集 | 灵活可扩展 |
@@ -825,7 +825,7 @@ graph LR
 
 #### 依赖管理策略
 - **必需依赖**：pthread, C++11 标准库（系统自带）
-- **可选依赖**：gRPC, Protobuf, spdlog, nlohmann/json
+- **可选依赖**：gRPC, Protobuf, spdlog, rapidjson
 - **版本锁定**：CMakeLists.txt 中定义最低版本要求
 - **私有仓库**：无（所有依赖为公共仓库）
 

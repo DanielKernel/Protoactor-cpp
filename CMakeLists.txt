@@ -51,7 +51,7 @@ option(ENABLE_PROTOBUF "Enable Protobuf support (required for remote)" OFF)
 option(ENABLE_GRPC "Enable gRPC support (required for remote)" OFF)
 option(ENABLE_SPDLOG "Use spdlog for logging" ON)
 option(ENABLE_GTEST "Enable Google Test for unit tests" OFF)
-option(ENABLE_JSON "Enable JSON support (nlohmann/json)" OFF)
+option(ENABLE_JSON "Enable JSON support (rapidjson)" OFF)
 
 # Protobuf (required for remote communication)
 if(ENABLE_PROTOBUF OR ENABLE_GRPC)
@@ -96,14 +96,14 @@ if(ENABLE_GTEST)
     endif()
 endif()
 
-# nlohmann/json (for JSON serialization)
+# rapidjson (for JSON serialization)
 if(ENABLE_JSON)
-    find_package(nlohmann_json QUIET)
-    if(nlohmann_json_FOUND)
-        message(STATUS "nlohmann/json found, JSON support enabled")
+    find_package(RapidJSON QUIET)
+    if(RapidJSON_FOUND)
+        message(STATUS "rapidjson found, JSON support enabled")
         add_definitions(-DPROTOACTOR_USE_JSON)
     else()
-        message(STATUS "nlohmann/json not found, JSON support disabled")
+        message(STATUS "rapidjson not found, JSON support disabled")
     endif()
 endif()
 
@@ -159,7 +159,7 @@ if(ENABLE_GRPC AND gRPC_FOUND)
 endif()
 
 # Add JSON serializer if JSON is enabled
-if(ENABLE_JSON AND nlohmann_json_FOUND)
+if(ENABLE_JSON AND RapidJSON_FOUND)
     list(APPEND REMOTE_SOURCES src/remote/json_serializer.cpp)
 endif()
 
@@ -269,11 +269,9 @@ if(ENABLE_SPDLOG AND spdlog_FOUND)
     )
 endif()
 
-# Add nlohmann/json if enabled
-if(ENABLE_JSON AND nlohmann_json_FOUND)
-    target_link_libraries(protoactor-cpp
-        nlohmann_json::nlohmann_json
-    )
+# Add rapidjson if enabled (header-only library, just need includes)
+if(ENABLE_JSON AND RapidJSON_FOUND)
+    target_include_directories(protoactor-cpp PRIVATE ${RapidJSON_INCLUDE_DIRS})
 endif()
 
 target_include_directories(protoactor-cpp PUBLIC
@@ -423,7 +421,7 @@ message(STATUS "Protobuf enabled: ${ENABLE_PROTOBUF}")
 message(STATUS "gRPC enabled: ${ENABLE_GRPC}")
 message(STATUS "spdlog enabled: ${ENABLE_SPDLOG} (found: ${spdlog_FOUND})")
 message(STATUS "Google Test enabled: ${ENABLE_GTEST} (found: ${GTest_FOUND})")
-message(STATUS "JSON enabled: ${ENABLE_JSON} (found: ${nlohmann_json_FOUND})")
+message(STATUS "JSON enabled: ${ENABLE_JSON} (found: ${RapidJSON_FOUND})")
 message(STATUS "Shared library: ${BUILD_SHARED_LIBS}")
 message(STATUS "=====================================")
 message(STATUS "")

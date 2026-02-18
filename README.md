@@ -93,7 +93,7 @@ cmake --build . -j$(nproc)
 - **gRPC + Protobuf**: 远程通信（必需，如需远程功能）
 - **spdlog**: 日志系统（推荐）
 - **Google Test**: 测试框架（推荐）
-- **nlohmann/json**: JSON支持（可选）
+- **rapidjson**: JSON支持（可选）
 
 ## 核心功能
 

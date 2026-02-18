@@ -3,8 +3,9 @@
 #include <sstream>
 
 #ifdef PROTOACTOR_USE_JSON
-    #include <nlohmann/json.hpp>
-    using json = nlohmann::json;
+    #include <rapidjson/document.h>
+    #include <rapidjson/writer.h>
+    #include <rapidjson/stringbuffer.h>
 #endif
 
 namespace protoactor {
@@ -12,8 +13,8 @@ namespace remote {
 
 /**
  * @brief JSON serializer implementation.
- * 
- * Uses nlohmann/json if available, otherwise provides placeholder.
+ *
+ * Uses rapidjson if available, otherwise provides placeholder.
  */
 class JSONSerializer : public Serializer {
 public:
@@ -26,7 +27,7 @@ public:
         // Placeholder
         return std::vector<uint8_t>();
 #else
-        throw std::runtime_error("JSON serializer requires nlohmann/json library");
+        throw std::runtime_error("JSON serializer requires rapidjson library");
 #endif
     }
     
@@ -38,7 +39,7 @@ public:
         
         throw std::runtime_error("JSONSerializer::Deserialize not yet implemented");
 #else
-        throw std::runtime_error("JSON serializer requires nlohmann/json library");
+        throw std::runtime_error("JSON serializer requires rapidjson library");
 #endif
     }
     
