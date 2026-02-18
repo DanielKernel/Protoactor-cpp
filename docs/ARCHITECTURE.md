@@ -297,7 +297,11 @@ sequenceDiagram
         NodeA->>MemberList: 心跳超时
         MemberList->>MemberList: 标记为 Down
         MemberList->>Gossiper: 广播状态变更
-        Gossiper->>NodeB,NodeC: Member Down 事件
+        par 广播给其他节点
+            Gossiper->>NodeB: Member Down 事件
+        and
+            Gossiper->>NodeC: Member Down 事件
+        end
     end
 
     Note over MemberList: SLA: 故障检测 < 5s
@@ -577,8 +581,8 @@ sequenceDiagram
 ```mermaid
 erDiagram
     ACTORSYSTEM ||--o{ ACTOR : "托管"
-    ACTOR ||--|{ CONTEXT : "关联"}
-    PID ||--|| ACTOR : "标识"
+    ACTOR ||--|| CONTEXT : "关联"
+    ACTOR }|--|| PID : "标识"
     PID ||--|| PROCESS : "解析"
     PROCESS ||--|| MAILBOX : "拥有"
     MAILBOX ||--o{ MESSAGEENVELOPE : "队列"}
@@ -1197,7 +1201,7 @@ graph TB
                 APIPod1[API Pod 1<br/>2C4G]
                 WorkerPod1[Worker Pod 1<br/>2C8G]
             end
-            PGPrimary[(PostgreSQL Primary<br/>8C32G SSD 500G]
+            PGPrimary[(PostgreSQL Primary<br/>8C32G SSD 500G)]
         end
 
         subgraph AZ2
@@ -1205,11 +1209,11 @@ graph TB
                 APIPod2[API Pod 2<br/>2C4G]
                 WorkerPod2[Worker Pod 2<br/>2C8G]
             end
-            PGReplica[(PostgreSQL Replica<br/>8C32G SSD 500G]
+            PGReplica[(PostgreSQL Replica<br/>8C32G SSD 500G)]
         end
 
         subgraph Shared
-            Redis[(Redis Cluster<br/>3主3从]
+            Redis[(Redis Cluster<br/>3主3从)]
             Kafka[Kafka Cluster<br/>3 Broker / 3 副本]
             S3[对象存储<br/>OSS / S3]
         end
