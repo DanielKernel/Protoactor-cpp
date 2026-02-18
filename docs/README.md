@@ -1,24 +1,22 @@
 # 项目文档 (docs)
 
-本目录存放构建与测试相关文档，**不归档**覆盖率等测试结果文件（如 `.gcov`），参见项目根目录 `.gitignore`。
+本目录存放项目文档。
 
 ## 文档索引
 
 | 文档 | 说明 |
 |------|------|
-| [BUILD_GUIDE.md](BUILD_GUIDE.md) | 构建指南：依赖、编译、跨架构、选项、验证、常见问题 |
-| [TESTING.md](TESTING.md) | 测试指导：脚本用法、单元/功能测试、覆盖率、常见问题 |
-| [PERF_TESTS.md](PERF_TESTS.md) | 性能测试：基准测试说明、运行方法 |
-| [BENCHMARK.md](BENCHMARK.md) | **性能对比**：与 ProtoActor-Go 及其他框架的性能基准测试对比 |
-| [COMPARISON.md](COMPARISON.md) | **功能对比**：与 ProtoActor-Go 的详细功能对比分析 |
-| [FRAMEWORK_COMPARISON.md](FRAMEWORK_COMPARISON.md) | **框架对比**：与 Akka、Orleans、Erlang/OTP 等主流框架的详细对比 |
-| [REMOTE_GUIDE.md](REMOTE_GUIDE.md) | **远程通信指南**：gRPC配置、消息序列化、最佳实践 |
-| [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) | **迁移指南**：从 ProtoActor-Go 迁移到 C++ 版本 |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | **架构设计**：系统架构、模块设计、设计原则 |
+| [BUILD_AND_REMOTE.md](BUILD_AND_REMOTE.md) | **构建与远程**：依赖安装、构建配置、远程通信 |
+| [COMPARISON_AND_MIGRATION.md](COMPARISON_AND_MIGRATION.md) | **对比与迁移**：与 Go 版本对比、API差异、迁移指南 |
 | [API_REFERENCE.md](API_REFERENCE.md) | **API参考**：完整的 C++ API 文档 |
 
-## 功能完成度概览
+## 其他文档
 
-基于 [COMPARISON.md](COMPARISON.md) 的详细分析：
+- [测试与性能指南](../tests/TESTING.md)：测试方法、性能测试、覆盖率
+- [示例代码](../examples/)：完整的使用示例
+
+## 功能完成度
 
 | 模块 | 完成度 |
 |------|--------|
@@ -31,4 +29,4 @@
 | 路由系统 | 100% |
 | 持久化 | 100% |
 
-**总体完成度: 100%** - 核心功能与 ProtoActor-Go 完全对齐，文档完整
+**总体完成度: 100%**

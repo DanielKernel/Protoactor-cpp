@@ -1,6 +1,6 @@
 # ProtoActor C++ 自动化测试
 
-**测试指导与脚本说明详见 [docs/TESTING.md](../docs/TESTING.md)。**
+**测试指导与脚本说明详见 [TESTING.md](TESTING.md)。**
 
 ## 目录与用例区分
 
