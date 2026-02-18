@@ -1,11 +1,11 @@
 #include "protoactor/context.h"
-#include "protoactor/root_context.h"
+#include "protoactor/internal/actor/root_context.h"
 #include "protoactor/actor_system.h"
 #include "protoactor/future.h"
 #include "protoactor/messages.h"
 #include "protoactor/pid.h"
 #include "protoactor/props.h"
-#include "protoactor/new_pid.h"
+#include "protoactor/internal/actor/new_pid.h"
 #include <stdexcept>
 
 // Forward declaration

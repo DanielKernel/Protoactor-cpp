@@ -1,6 +1,6 @@
-#include "protoactor/cluster/pubsub.h"
+#include "protoactor/internal/cluster/pubsub.h"
 #include "protoactor/cluster/cluster.h"
-#include "protoactor/cluster/pubsub_delivery.h"
+#include "protoactor/internal/cluster/pubsub_delivery.h"
 #include "protoactor/actor_system.h"
 #include "protoactor/props.h"
 #include "protoactor/messages.h"

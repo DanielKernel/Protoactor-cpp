@@ -1,5 +1,5 @@
 #include "protoactor/behavior.h"
-#include "protoactor/log.h"
+#include "protoactor/internal/log.h"
 #include <stdexcept>
 
 namespace protoactor {

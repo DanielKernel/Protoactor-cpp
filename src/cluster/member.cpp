@@ -1,4 +1,4 @@
-#include "protoactor/cluster/member.h"
+#include "protoactor/internal/cluster/member.h"
 #include <sstream>
 
 namespace protoactor {

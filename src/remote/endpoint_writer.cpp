@@ -1,7 +1,7 @@
-#include "protoactor/remote/endpoint_writer.h"
+#include "protoactor/internal/remote/endpoint_writer.h"
 #include "protoactor/remote/remote.h"
-#include "protoactor/remote/serializer.h"
-#include "protoactor/remote/messages.h"
+#include "protoactor/internal/remote/serializer.h"
+#include "protoactor/internal/remote/messages.h"
 #include "protoactor/messages.h"
 #include <thread>
 #include <chrono>

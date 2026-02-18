@@ -1,14 +1,14 @@
 #include "protoactor/props.h"
 #include "protoactor/actor_system.h"
 #include "protoactor/context.h"
-#include "protoactor/actor_context.h"
-#include "protoactor/mailbox.h"
+#include "protoactor/internal/actor/actor_context.h"
+#include "protoactor/internal/mailbox.h"
 #include "protoactor/dispatcher.h"
 #include "protoactor/supervision.h"
 #include "protoactor/messages.h"
-#include "protoactor/actor_process.h"
-#include "protoactor/process_registry.h"
-#include "protoactor/middleware_chain.h"
+#include "protoactor/internal/actor/actor_process.h"
+#include "protoactor/internal/process_registry.h"
+#include "protoactor/internal/actor/middleware_chain.h"
 #include <stdexcept>
 
 namespace protoactor {

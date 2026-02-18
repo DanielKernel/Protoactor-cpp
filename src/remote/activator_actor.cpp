@@ -1,4 +1,4 @@
-#include "protoactor/remote/activator_actor.h"
+#include "protoactor/internal/remote/activator_actor.h"
 #include "protoactor/remote/remote.h"
 #include "protoactor/messages.h"
 #include <stdexcept>

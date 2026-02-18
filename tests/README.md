@@ -1,6 +1,29 @@
-# ProtoActor C++ 自动化测试
+# ProtoActor C++ 测试
 
-**测试指导与脚本说明详见 [TESTING.md](TESTING.md)。**
+本文档提供测试的快速入门指南。详细的测试指导、性能基准测试和性能测试流水线说明请参阅 [TESTING.md](TESTING.md)。
+
+---
+
+## 快速开始
+
+在**项目根目录**下执行：
+
+```bash
+# 首次：配置 + 构建 + 运行全部单元测试
+./tests/scripts/run_unit_tests.sh --configure
+
+# 之后仅运行单元测试（需已构建）
+./tests/scripts/run_unit_tests.sh
+
+# 只跑核心测试（线程池 + 调度器，适合快速验证）
+./tests/scripts/run_unit_tests.sh --quick
+
+# 只跑某一模块
+./tests/scripts/run_unit_tests.sh --module thread_pool
+./tests/scripts/run_unit_tests.sh --module queue
+```
+
+---
 
 ## 目录与用例区分
 
@@ -14,6 +37,8 @@
 
 `.gcov` 等覆盖率结果文件已加入 `.gitignore`，**不归档**到版本库。
 
+---
+
 ## 脚本速览
 
 | 脚本 | 用途 |
@@ -23,13 +48,7 @@
 | `tests/scripts/coverage_report.sh` | 在开启 ENABLE_COVERAGE 并跑完单元测试后，汇总关键代码行覆盖率 |
 | `tests/scripts/perf/run_perf_tests.sh` | 性能测试批量运行脚本 |
 
-示例（在项目根目录执行）：
-```bash
-./tests/scripts/run_unit_tests.sh --configure   # 首次配置并跑单元测试
-./tests/scripts/run_unit_tests.sh --module queue
-./tests/scripts/run_unit_tests.sh --quick
-./tests/scripts/ci_tests.sh
-```
+---
 
 ## 测试分类
 
@@ -55,8 +74,10 @@
 ### 集成与性能测试
 
 - **actor_integration_test**（标签 `integration`、`module:actor`）— ActorSystem、Spawn、Send。
-- **remote_cluster_integration_test**（标签 `integration`、`module:remote`、`module:cluster`）— 远程通信与集群集成测试，验证远程Actor、成员管理、故障转移、Pub/Sub等场景。
+- **remote_cluster_integration_test**（标签 `integration`、`module:remote`、`module:cluster`）— 远程通信与集群集成测试。
 - **performance_test**（标签 `performance`）— 线程池/Dispatcher/Actor 吞吐基准（建议 Release 构建）。
+
+---
 
 ## 按需运行不同模块
 
@@ -84,27 +105,25 @@ ctest --output-on-failure -V
 ctest -R "thread_pool_test|dispatcher_test" --output-on-failure -V
 ```
 
+---
+
 ## 环境说明
 
 - 测试通过 CTest 运行时自动设置 **PROTOACTOR_TEST=1**，避免默认线程池 atexit 与进程退出顺序冲突。
 - **actor_integration_test**、**performance_test** 依赖完整 Actor 运行时；若在部分环境出现 Bus error，可仅跑单元测试：`ctest -L unit`。
 
-## 关键代码覆盖率（目标 ≥60%）
-
-对**关键代码**（pid、config、platform、queue、pidset、priority_queue、messages、thread_pool、dispatcher、extensions、props、eventstream 对应源文件）通过单元测试做行覆盖率统计，目标 **≥60%**。
-
-- **测量方式**：使用 gcov，开启 `ENABLE_COVERAGE` 构建并跑单元测试后收集。
-  ```bash
-  mkdir build_cov && cd build_cov
-  cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DENABLE_COVERAGE=ON
-  make -j4
-  ctest -L unit
-  # 然后可用 gcov 或 tests/scripts/coverage_report.sh 查看各文件覆盖率
-  ./tests/scripts/coverage_report.sh build_cov
-  ```
-- **当前情况**：config、queue、dispatcher、platform、pidset、priority_queue、thread_pool、extensions、props、eventstream 等单元测试可覆盖大部分逻辑，行覆盖率可达 60% 以上。**pid** 中 `Ref`/`SendUserMessage`/`SendSystemMessage`/`ClearCache` 依赖 ActorSystem，仅单元测试时覆盖率较低，需依赖集成测试或后续补充带 ActorSystem 的用例才能提高。**messages** 已通过 MessageEnvelope、GetHeader/SetHeader、WrapEnvelope/UnwrapEnvelope 等用例提升覆盖率。
-- 若需**仅单元测试**即达到 60% 目标，可优先保证上述已覆盖模块的用例稳定，并视情况为 pid 增加带轻量 ActorSystem 的用例（若运行环境支持）。
+---
 
 ## 不依赖 GTest
 
 测试使用 `tests/test_common.h` 的轻量断言与 `run_test`，无需安装 Google Test。
+
+---
+
+## 更多信息
+
+- **详细测试指南**: [TESTING.md](TESTING.md)
+- **性能基准测试**: [TESTING.md#性能基准测试](TESTING.md#性能基准测试)
+- **性能测试流水线**: [TESTING.md#性能测试流水线](TESTING.md#性能测试流水线)
+- **覆盖率说明**: [TESTING.md#覆盖率关键代码-60](TESTING.md#覆盖率关键代码-60)
+- **性能优化建议**: [TESTING.md#性能优化建议](TESTING.md#性能优化建议)

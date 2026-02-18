@@ -1,11 +1,11 @@
-#include "protoactor/cluster/member_list.h"
+#include "protoactor/internal/cluster/member_list.h"
 #include "protoactor/cluster/cluster.h"
-#include "protoactor/cluster/member.h"
-#include "protoactor/cluster/cluster_topology.h"
-#include "protoactor/cluster/gossip.h"
+#include "protoactor/internal/cluster/member.h"
+#include "protoactor/internal/cluster/cluster_topology.h"
+#include "protoactor/internal/cluster/gossip.h"
 #include "protoactor/eventstream.h"
 #include "protoactor/messages.h"
-#include "protoactor/log.h"
+#include "protoactor/internal/log.h"
 #include <algorithm>
 
 namespace protoactor {

@@ -1,7 +1,7 @@
 /**
  * Unit tests for Platform module.
  */
-#include "protoactor/platform.h"
+#include "protoactor/internal/platform.h"
 #include "tests/test_common.h"
 #include <cstdio>
 

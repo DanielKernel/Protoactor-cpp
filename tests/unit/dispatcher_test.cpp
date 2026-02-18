@@ -2,7 +2,7 @@
  * Unit tests for Dispatcher: default (thread-pool) and synchronized.
  */
 #include "protoactor/dispatcher.h"
-#include "protoactor/thread_pool.h"
+#include "protoactor/internal/thread_pool.h"
 #include "tests/test_common.h"
 #include <atomic>
 #include <chrono>

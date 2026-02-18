@@ -1,4 +1,4 @@
-#include "protoactor/remote/serializer.h"
+#include "protoactor/internal/remote/serializer.h"
 #include <stdexcept>
 #include <sstream>
 

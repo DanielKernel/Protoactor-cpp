@@ -1,13 +1,13 @@
-#include "protoactor/actor_context.h"
+#include "protoactor/internal/actor/actor_context.h"
 #include "protoactor/actor_system.h"
 #include "protoactor/props.h"
 #include "protoactor/messages.h"
 #include "protoactor/future.h"
 #include "protoactor/supervision.h"
-#include "protoactor/captured_context.h"
-#include "protoactor/new_pid.h"
-#include "protoactor/timer.h"
-#include "protoactor/deadletter.h" // Include DeadLetterProcess header
+#include "protoactor/internal/actor/captured_context.h"
+#include "protoactor/internal/actor/new_pid.h"
+#include "protoactor/internal/scheduler/timer.h"
+#include "protoactor/internal/actor/deadletter.h" // Include DeadLetterProcess header
 #include <stdexcept>
 #include <algorithm>
 

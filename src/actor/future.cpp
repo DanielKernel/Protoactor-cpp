@@ -1,11 +1,11 @@
 #include "protoactor/future.h"
 #include "protoactor/actor_system.h"
 #include "protoactor/pid.h"
-#include "protoactor/process_registry.h"
+#include "protoactor/internal/process_registry.h"
 #include "protoactor/messages.h"
-#include "protoactor/process.h"
-#include "protoactor/new_pid.h"
-#include "protoactor/deadletter.h"
+#include "protoactor/internal/process.h"
+#include "protoactor/internal/actor/new_pid.h"
+#include "protoactor/internal/actor/deadletter.h"
 #include <mutex>
 #include <condition_variable>
 #include <chrono>

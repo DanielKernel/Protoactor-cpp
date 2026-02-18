@@ -1,4 +1,4 @@
-#include "protoactor/pidset.h"
+#include "protoactor/internal/pidset.h"
 
 namespace protoactor {
 

@@ -47,3 +47,6 @@ coverage/
 
 # Performance test results (generated artifacts)
 perf_results/
+
+# Claude Code guidance file (project-specific)
+CLAUDE.md

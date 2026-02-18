@@ -1,7 +1,7 @@
 #include "protoactor/pid.h"
 #include "protoactor/actor_system.h"
-#include "protoactor/process_registry.h"
-#include "protoactor/process.h"
+#include "protoactor/internal/process_registry.h"
+#include "protoactor/internal/process.h"
 #include <atomic>
 
 namespace protoactor {

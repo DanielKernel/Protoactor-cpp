@@ -39,6 +39,9 @@ endif()
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_BINARY_DIR}/proto)
 
+# Internal headers are available for library implementation but not installed
+# They are in include/protoactor/internal/
+
 # Find required packages
 find_package(Threads REQUIRED)
 
@@ -400,9 +403,12 @@ install(TARGETS protoactor-cpp
     RUNTIME DESTINATION bin
 )
 
+# Install only public headers (exclude internal headers)
 install(DIRECTORY include/protoactor
     DESTINATION include
-    FILES_MATCHING PATTERN "*.h"
+    FILES_MATCHING
+    PATTERN "*.h"
+    PATTERN "internal" EXCLUDE
 )
 
 # Print configuration summary

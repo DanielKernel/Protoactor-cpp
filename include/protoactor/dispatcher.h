@@ -1,7 +1,7 @@
 #ifndef PROTOACTOR_DISPATCHER_H
 #define PROTOACTOR_DISPATCHER_H
 
-#include "protoactor/thread_pool.h"
+#include "protoactor/internal/thread_pool.h"
 #include <functional>
 #include <memory>
 

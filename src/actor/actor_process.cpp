@@ -1,5 +1,5 @@
-#include "protoactor/actor_process.h"
-#include "protoactor/mailbox.h"
+#include "protoactor/internal/actor/actor_process.h"
+#include "protoactor/internal/mailbox.h"
 #include "protoactor/messages.h"
 
 namespace protoactor {

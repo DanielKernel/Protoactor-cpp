@@ -1,8 +1,8 @@
-#include "protoactor/cluster/gossiper.h"
+#include "protoactor/internal/cluster/gossiper.h"
 #include "protoactor/cluster/cluster.h"
-#include "protoactor/cluster/member_list.h"
-#include "protoactor/cluster/gossip.h"
-#include "protoactor/cluster/cluster_topology.h"
+#include "protoactor/internal/cluster/member_list.h"
+#include "protoactor/internal/cluster/gossip.h"
+#include "protoactor/internal/cluster/cluster_topology.h"
 #include <thread>
 #include <chrono>
 

@@ -2,6 +2,53 @@
 
 本文档提供 ProtoActor C++ 的完整 API 参考。
 
+## API 说明：公开接口 vs 内部接口
+
+ProtoActor C++ 将接口分为**公开接口**（Public API）和**内部接口**（Internal API）：
+
+### 公开接口 (Public API)
+
+公开接口是库使用者可以直接使用的接口，这些接口会随库一起发布。所有公开接口的头文件位于 `include/protoactor/` 目录下，安装时会被复制到目标系统的 include 目录。
+
+**公开接口包括：**
+- 核心模块：Actor、PID、Context、Props、ActorSystem
+- 消息传递：MessageEnvelope、Future
+- 生命周期：Started、Stopping、Stopped、Restarting
+- 行为管理：Behavior
+- 监督策略：SupervisorStrategy、Directive
+- 中间件：ReceiverMiddleware、SenderMiddleware、SpawnMiddleware、ContextDecorator
+- 路由：Router 及其实现
+- 远程通信：Remote
+- 集群：Cluster
+- 持久化：Provider、EventStore、SnapshotStore
+- 事件流：EventStream
+- 测试工具：TestProbe
+- 调度器：Dispatcher
+- 配置：Config、Extensions
+
+### 内部接口 (Internal API)
+
+内部接口是库实现细节，仅供库内部使用。这些头文件位于 `include/protoactor/internal/` 目录下，**不会被安装**到目标系统。
+
+**内部接口包括：**
+- Process 接口及其实现（Process、ActorProcess、RemoteProcess）
+- Mailbox 接口及其实现
+- Context 实现（RootContext、ActorContext、CapturedContext）
+- 线程池和队列（ThreadPool、Queue、PriorityQueue）
+- 进程注册表（ProcessRegistry）
+- 死信处理（DeadLetter）
+- 守护进程（Guardian）
+- 日志系统（Log）
+- 指标收集（Metrics）
+- 定时器（Timer）
+- 流式处理（Stream）
+- 平台抽象（Platform）
+- 子系统内部实现（Remote、Cluster、Router、Persistence 的内部组件）
+
+**重要：** 库使用者**不应**直接包含内部接口头文件。内部接口可能会在不通知的情况下发生变化，不保证稳定性。
+
+---
+
 ## 目录
 
 - [核心模块](#核心模块)
@@ -1347,6 +1394,75 @@ enum class Directive { Resume, Restart, Stop, Escalate };
 
 } // namespace protoactor
 ```
+
+---
+
+## 内部 API (Internal API)
+
+以下接口仅用于库内部实现，不作为公开 API 提供：
+
+### 核心内部组件
+
+- **Process** (`include/protoactor/internal/process.h`) - 进程接口，定义 Actor 与系统的交互契约
+- **Mailbox** (`include/protoactor/internal/mailbox.h`) - 邮箱接口，用于消息队列
+- **ActorProcess** (`include/protoactor/internal/actor/actor_process.h`) - Actor 进程实现
+- **RootContext** (`include/protoactor/internal/actor/root_context.h`) - 根上下文实现
+- **ActorContext** (`include/protoactor/internal/actor/actor_context.h`) - Actor 上下文实现
+- **CapturedContext** (`include/protoactor/internal/actor/captured_context.h`) - 捕获上下文实现
+
+### 基础设施
+
+- **ThreadPool** (`include/protoactor/internal/thread_pool.h`) - 线程池实现
+- **Queue** (`include/protoactor/internal/queue.h`) - 无界队列实现
+- **PriorityQueue** (`include/protoactor/internal/queue/priority_queue.h`) - 优先队列实现
+- **PIDSet** (`include/protoactor/internal/pidset.h`) - PID 集合实现
+- **ProcessRegistry** (`include/protoactor/internal/process_registry.h`) - 进程注册表
+- **Platform** (`include/protoactor/internal/platform.h`) - 平台抽象
+
+### 内部系统组件
+
+- **DeadLetter** (`include/protoactor/internal/actor/deadletter.h`) - 死信处理
+- **Guardian** (`include/protoactor/internal/actor/guardian.h`) - 守护进程
+- **Log** (`include/protoactor/internal/log.h`) - 日志系统
+- **Metrics** (`include/protoactor/internal/metrics/metrics.h`) - 指标收集
+- **Timer** (`include/protoactor/internal/scheduler/timer.h`) - 定时器
+- **Stream** (`include/protoactor/internal/stream.h`) - 流式处理
+- **NewPID** (`include/protoactor/internal/actor/new_pid.h`) - PID 创建工具
+- **MessageBatch** (`include/protoactor/internal/message_batch.h`) - 消息批处理
+- **DeduplicationContext** (`include/protoactor/internal/actor/deduplication_context.h`) - 消息去重
+- **MiddlewareChain** (`include/protoactor/internal/actor/middleware_chain.h`) - 中间件链
+
+### 远程通信内部组件
+
+- **EndpointManager** (`include/protoactor/internal/remote/endpoint_manager.h`) - 端点管理器
+- **EndpointReader** (`include/protoactor/internal/remote/endpoint_reader.h`) - 端点读取器
+- **EndpointWatcher** (`include/protoactor/internal/remote/endpoint_watcher.h`) - 端点监视器
+- **EndpointWriter** (`include/protoactor/internal/remote/endpoint_writer.h`) - 端点写入器
+- **gRPCService** (`include/protoactor/internal/remote/grpc_service.h`) - gRPC 服务
+- **ActivatorActor** (`include/protoactor/internal/remote/activator_actor.h`) - 激活器 Actor
+- **Serializer** (`include/protoactor/internal/remote/serializer.h`) - 序列化器
+- **RemoteMessages** (`include/protoactor/internal/remote/messages.h`) - 远程消息定义
+- **RemoteProcess** (`include/protoactor/internal/remote/remote_process.h`) - 远程进程实现
+- **Blocklist** (`include/protoactor/internal/remote/blocklist.h`) - 黑名单
+
+### 集群内部组件
+
+- **Member** (`include/protoactor/internal/cluster/member.h`) - 集群成员
+- **PIDCache** (`include/protoactor/internal/cluster/pid_cache.h`) - PID 缓存
+- **ClusterProvider** (`include/protoactor/internal/cluster/cluster_provider.h`) - 集群提供者
+- **IdentityLookup** (`include/protoactor/internal/cluster/identity_lookup.h`) - 身份查找
+- **ClusterTopology** (`include/protoactor/internal/cluster/cluster_topology.h`) - 集群拓扑
+- **Gossiper** (`include/protoactor/internal/cluster/gossiper.h`) - Gossip 协议
+- **Gossip** (`include/protoactor/internal/cluster/gossip.h`) - Gossip 实现
+- **PubSub** (`include/protoactor/internal/cluster/pubsub.h`) - 发布订阅
+- **PubSubDelivery** (`include/protoactor/internal/cluster/pubsub_delivery.h`) - 发布订阅投递
+- **MemberList** (`include/protoactor/internal/cluster/member_list.h`) - 成员列表
+
+### 路由内部组件
+
+- **RouterGroup** (`include/protoactor/internal/router/router_group.h`) - 路由器组
+
+**注意：** 上述所有内部接口仅用于库内部实现，可能会在不通知的情况下发生变化。库使用者不应直接依赖这些接口。
 
 ---
 

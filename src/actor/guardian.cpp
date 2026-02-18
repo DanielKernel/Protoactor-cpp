@@ -1,4 +1,4 @@
-#include "protoactor/guardian.h"
+#include "protoactor/internal/actor/guardian.h"
 #include "protoactor/actor_system.h"
 #include "protoactor/props.h"
 #include "protoactor/supervision.h"

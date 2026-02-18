@@ -4,7 +4,7 @@
 #include "actor.h"
 #include "pid.h"
 #include "supervision.h"
-#include "mailbox.h"
+#include "protoactor/internal/mailbox.h"
 #include "dispatcher.h"
 #include <memory>
 #include <string>

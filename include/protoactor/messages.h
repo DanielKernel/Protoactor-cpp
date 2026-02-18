@@ -1,7 +1,7 @@
 #ifndef PROTOACTOR_MESSAGES_H
 #define PROTOACTOR_MESSAGES_H
 
-#include "pid.h"
+#include "protoactor/pid.h"
 #include <memory>
 #include <string>
 #include <chrono>

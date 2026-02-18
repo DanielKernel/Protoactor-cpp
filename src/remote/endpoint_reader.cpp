@@ -1,10 +1,10 @@
-#include "protoactor/remote/endpoint_reader.h"
+#include "protoactor/internal/remote/endpoint_reader.h"
 #include "protoactor/remote/remote.h"
-#include "protoactor/remote/endpoint_manager.h"
-#include "protoactor/remote/serializer.h"
-#include "protoactor/remote/messages.h"
+#include "protoactor/internal/remote/endpoint_manager.h"
+#include "protoactor/internal/remote/serializer.h"
+#include "protoactor/internal/remote/messages.h"
 #include "protoactor/actor_system.h"
-#include "protoactor/process_registry.h"
+#include "protoactor/internal/process_registry.h"
 #include "protoactor/messages.h"
 #include <stdexcept>
 

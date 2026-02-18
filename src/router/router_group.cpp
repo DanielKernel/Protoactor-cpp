@@ -1,4 +1,4 @@
-#include "protoactor/router/router_group.h"
+#include "protoactor/internal/router/router_group.h"
 #include "protoactor/context.h"
 #include "protoactor/props.h"
 #include <algorithm>

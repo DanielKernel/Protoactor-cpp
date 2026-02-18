@@ -1,4 +1,4 @@
-#include "protoactor/cluster/pubsub_delivery.h"
+#include "protoactor/internal/cluster/pubsub_delivery.h"
 #include "protoactor/cluster/cluster.h"
 #include "protoactor/future.h"
 #include "protoactor/messages.h"

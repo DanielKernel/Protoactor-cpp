@@ -1,8 +1,8 @@
-#include "protoactor/cluster/identity_lookup.h"
+#include "protoactor/internal/cluster/identity_lookup.h"
 #include "protoactor/cluster/cluster.h"
-#include "protoactor/cluster/member_list.h"
-#include "protoactor/cluster/member.h"
-#include "protoactor/cluster/pid_cache.h"
+#include "protoactor/internal/cluster/member_list.h"
+#include "protoactor/internal/cluster/member.h"
+#include "protoactor/internal/cluster/pid_cache.h"
 #include "protoactor/remote/remote.h"
 #include "protoactor/future.h"
 #include <stdexcept>

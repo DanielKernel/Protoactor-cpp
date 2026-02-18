@@ -1,4 +1,4 @@
-#include "protoactor/new_pid.h"
+#include "protoactor/internal/actor/new_pid.h"
 #include "protoactor/pid.h"
 
 namespace protoactor {

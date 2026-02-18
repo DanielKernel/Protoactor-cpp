@@ -1,8 +1,8 @@
-#include "protoactor/remote/endpoint_watcher.h"
+#include "protoactor/internal/remote/endpoint_watcher.h"
 #include "protoactor/remote/remote.h"
-#include "protoactor/remote/messages.h"
+#include "protoactor/internal/remote/messages.h"
 #include "protoactor/messages.h"
-#include "protoactor/process_registry.h"
+#include "protoactor/internal/process_registry.h"
 #include <algorithm>
 
 namespace protoactor {

@@ -2,7 +2,7 @@
  * Performance tests: thread pool throughput, dispatcher throughput, actor message throughput.
  * Run in Release build for meaningful numbers. Output is human-readable report.
  */
-#include "protoactor/thread_pool.h"
+#include "protoactor/internal/thread_pool.h"
 #include "protoactor/dispatcher.h"
 #include "protoactor/actor.h"
 #include "protoactor/context.h"

@@ -1,6 +1,6 @@
-#include "protoactor/remote/remote_process.h"
+#include "protoactor/internal/remote/remote_process.h"
 #include "protoactor/remote/remote.h"
-#include "protoactor/remote/endpoint_manager.h"
+#include "protoactor/internal/remote/endpoint_manager.h"
 #include "protoactor/messages.h"
 #include <memory>
 

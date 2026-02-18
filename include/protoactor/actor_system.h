@@ -2,8 +2,8 @@
 #define PROTOACTOR_ACTOR_SYSTEM_H
 
 #include "context.h"
-#include "process_registry.h"
-#include "root_context.h"
+#include "protoactor/internal/process_registry.h"
+#include "protoactor/internal/actor/root_context.h"
 #include <memory>
 #include <string>
 #include <chrono>
