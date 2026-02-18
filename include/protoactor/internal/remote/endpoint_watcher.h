@@ -6,6 +6,7 @@
 #include "protoactor/pid.h"
 #include "protoactor/remote/remote.h"
 #include "protoactor/messages.h"
+#include "protoactor/internal/remote/messages.h" // For RemoteWatch, RemoteUnwatch, RemoteTerminate
 #include <memory>
 #include <string>
 #include <unordered_map>

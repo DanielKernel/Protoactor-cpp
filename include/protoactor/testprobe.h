@@ -1,9 +1,9 @@
 #ifndef PROTOACTOR_TESTKIT_TESTPROBE_H
 #define PROTOACTOR_TESTKIT_TESTPROBE_H
 
-#include "../pid.h"
-#include "../context.h"
-#include "../future.h"
+#include "pid.h"
+#include "context.h"
+#include "future.h"
 #include <memory>
 #include <vector>
 #include <chrono>

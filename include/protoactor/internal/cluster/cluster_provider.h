@@ -1,7 +1,7 @@
 #ifndef PROTOACTOR_CLUSTER_CLUSTER_PROVIDER_H
 #define PROTOACTOR_CLUSTER_CLUSTER_PROVIDER_H
 
-#include "cluster.h"
+#include "../../cluster/cluster.h"
 #include "member.h"
 #include <memory>
 #include <string>

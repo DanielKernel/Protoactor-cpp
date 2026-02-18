@@ -2,7 +2,7 @@
 #define PROTOACTOR_CLUSTER_IDENTITY_LOOKUP_H
 
 #include "protoactor/pid.h"
-#include "cluster.h"
+#include "../../cluster/cluster.h"
 #include <memory>
 #include <string>
 #include <vector>

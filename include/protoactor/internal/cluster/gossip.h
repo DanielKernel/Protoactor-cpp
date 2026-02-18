@@ -17,7 +17,7 @@ namespace cluster {
 
 // Forward declarations
 class Cluster;
-class ClusterTopology;
+struct ClusterTopology;
 
 /**
  * @brief Gossip state for a member.

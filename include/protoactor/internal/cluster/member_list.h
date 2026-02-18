@@ -6,7 +6,7 @@
 #include <vector>
 #include <mutex>
 #include <unordered_map>
-#include "../eventstream/eventstream.h"
+#include "protoactor/eventstream.h"
 
 namespace protoactor {
 namespace cluster {
@@ -15,8 +15,8 @@ namespace cluster {
 class Cluster;
 class Member;
 class MemberStrategy;
-class ClusterTopology;
-class GossipUpdate;
+struct ClusterTopology;
+struct GossipUpdate;
 
 /**
  * @brief MemberList keeps track of the current cluster topology.

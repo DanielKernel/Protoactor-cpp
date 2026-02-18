@@ -6,7 +6,7 @@
 #include "protoactor/pid.h"
 #include "protoactor/props.h"
 #include "protoactor/remote/remote.h"
-#include "protoactor/messages.h"
+#include "protoactor/internal/remote/messages.h" // For Ping, Pong, ActorPidRequest/Response
 #include <memory>
 #include <string>
 
@@ -25,7 +25,7 @@ public:
 private:
     std::shared_ptr<Remote> remote_;
     
-    void HandleActorPidRequest(std::shared_ptr<Context> context, std::shared_ptr<ActorPidRequest> request);
+    void HandleActorPidRequest(std::shared_ptr<Context> context, std::shared_ptr<protoactor::remote::ActorPidRequest> request);
     void HandlePing(std::shared_ptr<Context> context);
 };
 

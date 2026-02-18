@@ -3,7 +3,7 @@
 
 #include "../actor_system.h"
 #include "../remote/remote.h"
-#include "../eventstream/eventstream.h"
+#include "../eventstream.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
