@@ -16,7 +16,7 @@
 | 路由系统 (广播/轮询/随机/哈希) | 100% | 虚拟Actor (Grains) | 90% |
 | 持久化 (事件溯源/快照) | 100% | 身份查找/PID缓存 | 100% |
 
-**详细对比请参阅 [docs/COMPARISON.md](docs/COMPARISON.md)**
+**详细对比请参阅 [docs/COMPARISON_AND_MIGRATION.md](docs/COMPARISON_AND_MIGRATION.md)**
 
 ## 项目结构
 
@@ -187,11 +187,11 @@ int main() {
 
 | 文档 | 说明 |
 |------|------|
-| [构建指南](docs/BUILD_GUIDE.md) | 完整的构建、依赖安装、跨架构编译和 gRPC 集成说明 |
-| [测试指导](docs/TESTING.md) | 单元测试、功能测试、覆盖率统计 |
+| [构建指南](docs/BUILD_AND_REMOTE.md) | 完整的构建、依赖安装、跨架构编译和 gRPC 集成说明 |
+| [测试指导](../tests/TESTING.md) | 单元测试、功能测试、覆盖率统计 |
 | [性能测试](docs/PERF_TESTS.md) | 性能基准测试说明 |
 | [性能对比](docs/BENCHMARK.md) | 与 ProtoActor-Go 及其他框架的性能对比 |
-| [功能对比](docs/COMPARISON.md) | 与 ProtoActor-Go 的详细功能对比分析 |
+| [功能对比](docs/COMPARISON_AND_MIGRATION.md) | 与 ProtoActor-Go 的详细功能对比分析 |
 | [远程通信指南](docs/REMOTE_GUIDE.md) | 远程通信配置、消息序列化、最佳实践 |
 | [迁移指南](docs/MIGRATION_GUIDE.md) | 从 ProtoActor-Go 迁移到 C++ 版本 |
 | [API参考](docs/API_REFERENCE.md) | 完整的 C++ API 文档 |
