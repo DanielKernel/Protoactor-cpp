@@ -588,68 +588,68 @@ erDiagram
     MAILBOX ||--o{ MESSAGEENVELOPE : "队列"}
 
     ACTORSYSTEM {
-        string name
-        string address
-        shared_ptr ProcessRegistry registry
-        shared_ptr ThreadPool thread_pool
+        name string
+        address string
+        registry shared_ptr_ProcessRegistry
+        thread_pool shared_ptr_ThreadPool
     }
 
     ACTOR {
-        string class_name
-        shared_ptr Props props
-        shared_ptr Context context
+        class_name string
+        props shared_ptr_Props
+        context shared_ptr_Context
     }
 
     PID {
-        string address
-        string id
-        uint32_t request_id
-        atomic Process* cached_ptr
+        address string
+        id string
+        request_id uint32_t
+        cached_ptr atomic_Process
     }
 
     PROCESS {
-        string pid_key
-        enum status
-        shared_ptr Mailbox mailbox
+        pid_key string
+        status enum
+        mailbox shared_ptr_Mailbox
     }
 
     MAILBOX {
-        enum mailbox_type
-        shared_ptr Queue user_messages
-        shared_ptr Queue system_messages
+        mailbox_type enum
+        user_messages shared_ptr_Queue
+        system_messages shared_ptr_Queue
     }
 
     MESSAGEENVELOPE {
-        shared_ptr void message
-        shared_ptr PID sender
-        MessageHeader* headers
+        message shared_ptr_void
+        sender shared_ptr_PID
+        headers MessageHeader
     }
 
     CONTEXT {
-        shared_ptr PID self
-        shared_ptr PID parent
-        shared_ptr Actor actor
+        self shared_ptr_PID
+        parent shared_ptr_PID
+        actor shared_ptr_Actor
     }
 
     CLUSTER ||--o{ MEMBER : "包含"}
     MEMBER ||--o{ TOPOLOGY : "参与"}
 
     CLUSTER {
-        string name
-        shared_ptr MemberList member_list
+        name string
+        member_list shared_ptr_MemberList
     }
 
     MEMBER {
-        string id
-        string host
-        int port
-        enum status
-        int topology_sort_order
+        id string
+        host string
+        port int
+        status enum
+        topology_sort_order int
     }
 
     TOPOLOGY {
-        vector Member sorted_members
-        string consensus_id
+        sorted_members vector_Member
+        consensus_id string
     }
 ```
 
