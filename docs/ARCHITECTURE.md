@@ -582,75 +582,14 @@ sequenceDiagram
 erDiagram
     ACTORSYSTEM ||--o{ ACTOR : "托管"
     ACTOR ||--|| CONTEXT : "关联"
-    ACTOR }|--|| PID : "标识"
+    ACTOR ||--|| PID : "标识"
     PID ||--|| PROCESS : "解析"
     PROCESS ||--|| MAILBOX : "拥有"
-    MAILBOX ||--o{ MESSAGEENVELOPE : "队列"}
+    MAILBOX ||--o{ MESSAGEENVELOPE : "队列"
+    CONTEXT ||--|| ACTOR : "关联"
 
-    ACTORSYSTEM {
-        name string
-        address string
-        registry shared_ptr_ProcessRegistry
-        thread_pool shared_ptr_ThreadPool
-    }
-
-    ACTOR {
-        class_name string
-        props shared_ptr_Props
-        context shared_ptr_Context
-    }
-
-    PID {
-        address string
-        id string
-        request_id uint32_t
-        cached_ptr atomic_Process
-    }
-
-    PROCESS {
-        pid_key string
-        status enum
-        mailbox shared_ptr_Mailbox
-    }
-
-    MAILBOX {
-        mailbox_type enum
-        user_messages shared_ptr_Queue
-        system_messages shared_ptr_Queue
-    }
-
-    MESSAGEENVELOPE {
-        message shared_ptr_void
-        sender shared_ptr_PID
-        headers MessageHeader
-    }
-
-    CONTEXT {
-        self shared_ptr_PID
-        parent shared_ptr_PID
-        actor shared_ptr_Actor
-    }
-
-    CLUSTER ||--o{ MEMBER : "包含"}
-    MEMBER ||--o{ TOPOLOGY : "参与"}
-
-    CLUSTER {
-        name string
-        member_list shared_ptr_MemberList
-    }
-
-    MEMBER {
-        id string
-        host string
-        port int
-        status enum
-        topology_sort_order int
-    }
-
-    TOPOLOGY {
-        sorted_members vector_Member
-        consensus_id string
-    }
+    CLUSTER ||--o{ MEMBER : "包含"
+    MEMBER ||--o{ TOPOLOGY : "参与"
 ```
 
 ### 2.4 技术模型
