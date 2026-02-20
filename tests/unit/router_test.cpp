@@ -19,7 +19,7 @@ using namespace protoactor::test;
 static std::vector<std::shared_ptr<PID>> create_test_routees(int count) {
     std::vector<std::shared_ptr<PID>> routees;
     for (int i = 0; i < count; i++) {
-        routees.push_back(PID::New("test", "routee-" + std::to_string(i)));
+        routees.push_back(NewPID("test", "routee-" + std::to_string(i)));
     }
     return routees;
 }
@@ -197,32 +197,28 @@ static bool test_router_interface_consistent_hash() {
 // ============================================================================
 
 static bool test_pid_creation() {
-    auto pid = PID::New("localhost", "actor-1");
+    auto pid = NewPID("localhost", "actor-1");
 
     ASSERT_TRUE(pid != nullptr);
-    ASSERT_TRUE(pid->Address() == "localhost/actor-1" ||
-                pid->Address() == "localhost:0/actor-1");  // Address format may vary
+    ASSERT_TRUE((pid->address == "localhost" || pid->address == "localhost:0") && pid->id == "actor-1");
     return true;
 }
 
 static bool test_pid_address_format() {
-    auto pid = PID::New("host", "name");
+    auto pid = NewPID("host", "name");
 
-    // Address should contain host and name
-    std::string addr = pid->Address();
-    ASSERT_TRUE(addr.find("host") != std::string::npos);
-    ASSERT_TRUE(addr.find("name") != std::string::npos);
+    ASSERT_TRUE(pid->address.find("host") != std::string::npos);
+    ASSERT_TRUE(pid->id.find("name") != std::string::npos);
     return true;
 }
 
 static bool test_pid_comparison() {
-    auto pid1 = PID::New("host", "actor");
-    auto pid2 = PID::New("host", "actor");
-    auto pid3 = PID::New("host", "other");
+    auto pid1 = NewPID("host", "actor");
+    auto pid2 = NewPID("host", "actor");
+    auto pid3 = NewPID("host", "other");
 
-    // Same address should be equal
-    ASSERT_TRUE(pid1->Address() == pid2->Address());
-    ASSERT_TRUE(pid1->Address() != pid3->Address());
+    ASSERT_TRUE(pid1->address == pid2->address && pid1->id == pid2->id);
+    ASSERT_TRUE(pid1->address != pid3->address || pid1->id != pid3->id);
     return true;
 }
 

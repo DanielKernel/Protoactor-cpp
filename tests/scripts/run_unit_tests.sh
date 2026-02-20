@@ -47,7 +47,9 @@ if [ -n "$LIST_ONLY" ]; then
   echo "Unit test executables (use with --module NAME):"
   echo "  unit_pid  unit_config  unit_platform  unit_queue  unit_pidset"
   echo "  unit_priority_queue  unit_messages  thread_pool_test  dispatcher_test"
-  echo "Module names for --module: pid, config, platform, queue, pidset, priority_queue, messages, thread_pool, dispatcher"
+  echo "  unit_extensions  unit_props  unit_eventstream  unit_supervision"
+  echo "  unit_middleware  unit_router  unit_remote  unit_persistence  unit_cluster"
+  echo "Module names for --module: pid, config, platform, queue, pidset, priority_queue, messages, thread_pool, dispatcher, extensions, props, eventstream, supervision, middleware, router, remote, persistence, cluster"
   exit 0
 fi
 
@@ -89,6 +91,15 @@ elif [ -n "$MODULE" ]; then
     messages)         name=unit_messages ;;
     thread_pool)      name=thread_pool_test ;;
     dispatcher)       name=dispatcher_test ;;
+    extensions)       name=unit_extensions ;;
+    props)            name=unit_props ;;
+    eventstream)      name=unit_eventstream ;;
+    supervision)      name=unit_supervision ;;
+    middleware)       name=unit_middleware ;;
+    router)           name=unit_router ;;
+    remote)           name=unit_remote ;;
+    persistence)      name=unit_persistence ;;
+    cluster)          name=unit_cluster ;;
     *) echo "Unknown module: $MODULE" >&2; exit 1 ;;
   esac
   cd "$BUILD_DIR" && ctest -R "^${name}$" --output-on-failure $CTEST_EXTRA

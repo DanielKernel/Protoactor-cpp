@@ -2,6 +2,7 @@
 #ifdef ENABLE_PROTOBUF
 #include <google/protobuf/message.h>
 #endif
+#include <algorithm>
 #include <unordered_map>
 #include <vector>
 #include <mutex>
@@ -74,8 +75,10 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = events_.find(actor_name);
         if (it != events_.end()) {
-            for (int i = event_index_start; i < event_index_end && i < static_cast<int>(it->second.size()); ++i) {
-                if (i >= 0) {
+            const int size = static_cast<int>(it->second.size());
+            const int end = (event_index_end < 0) ? size : std::min(event_index_end, size);
+            for (int i = event_index_start; i < end; ++i) {
+                if (i >= 0 && it->second[i]) {
                     callback(it->second[i]);
                 }
             }

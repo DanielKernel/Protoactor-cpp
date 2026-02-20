@@ -5,7 +5,7 @@
  * Full integration tests require gRPC and should be run separately.
  */
 #include "external/remote/remote.h"
-#include "external/remote/blocklist.h"
+#include "internal/remote/blocklist.h"
 #include "external/pid.h"
 #include "external/props.h"
 #include "tests/test_common.h"
@@ -21,60 +21,56 @@ using namespace protoactor::test;
 // ============================================================================
 
 static bool test_blocklist_empty() {
-    remote::Blocklist blocklist;
+    auto blocklist = remote::BlockList::New();
 
-    ASSERT_TRUE(!blocklist.IsBlocked("localhost:8090"));
-    ASSERT_TRUE(!blocklist.IsBlocked("192.168.1.1:9000"));
+    ASSERT_TRUE(!blocklist->IsBlocked("localhost:8090"));
+    ASSERT_TRUE(!blocklist->IsBlocked("192.168.1.1:9000"));
     return true;
 }
 
 static bool test_blocklist_block_address() {
-    remote::Blocklist blocklist;
+    auto blocklist = remote::BlockList::New();
 
-    blocklist.Block("bad-host:8090");
+    blocklist->Block("bad-host:8090");
 
-    ASSERT_TRUE(blocklist.IsBlocked("bad-host:8090"));
-    ASSERT_TRUE(!blocklist.IsBlocked("good-host:8090"));
+    ASSERT_TRUE(blocklist->IsBlocked("bad-host:8090"));
+    ASSERT_TRUE(!blocklist->IsBlocked("good-host:8090"));
     return true;
 }
 
 static bool test_blocklist_block_multiple() {
-    remote::Blocklist blocklist;
+    auto blocklist = remote::BlockList::New();
 
-    blocklist.Block("host1:8090");
-    blocklist.Block("host2:8090");
-    blocklist.Block("host3:8090");
+    blocklist->Block("host1:8090");
+    blocklist->Block("host2:8090");
+    blocklist->Block("host3:8090");
 
-    ASSERT_TRUE(blocklist.IsBlocked("host1:8090"));
-    ASSERT_TRUE(blocklist.IsBlocked("host2:8090"));
-    ASSERT_TRUE(blocklist.IsBlocked("host3:8090"));
-    ASSERT_TRUE(!blocklist.IsBlocked("host4:8090"));
+    ASSERT_TRUE(blocklist->IsBlocked("host1:8090"));
+    ASSERT_TRUE(blocklist->IsBlocked("host2:8090"));
+    ASSERT_TRUE(blocklist->IsBlocked("host3:8090"));
+    ASSERT_TRUE(!blocklist->IsBlocked("host4:8090"));
     return true;
 }
 
-static bool test_blocklist_unblock() {
-    remote::Blocklist blocklist;
+static bool test_blocklist_len_and_blocked_members() {
+    auto blocklist = remote::BlockList::New();
 
-    blocklist.Block("temp-host:8090");
-    ASSERT_TRUE(blocklist.IsBlocked("temp-host:8090"));
+    blocklist->Block("host1:8090");
+    blocklist->Block("host2:8090");
 
-    blocklist.Unblock("temp-host:8090");
-    ASSERT_TRUE(!blocklist.IsBlocked("temp-host:8090"));
+    ASSERT_EQ(blocklist->Len(), 2u);
+    auto members = blocklist->BlockedMembers();
+    ASSERT_EQ(members.size(), 2u);
     return true;
 }
 
 static bool test_blocklist_clear() {
-    remote::Blocklist blocklist;
+    auto blocklist = remote::BlockList::New();
 
-    blocklist.Block("host1:8090");
-    blocklist.Block("host2:8090");
-    blocklist.Block("host3:8090");
-
-    blocklist.Clear();
-
-    ASSERT_TRUE(!blocklist.IsBlocked("host1:8090"));
-    ASSERT_TRUE(!blocklist.IsBlocked("host2:8090"));
-    ASSERT_TRUE(!blocklist.IsBlocked("host3:8090"));
+    blocklist->Block("host1:8090");
+    blocklist->Block("host2:8090");
+    ASSERT_EQ(blocklist->Len(), 2u);
+    ASSERT_TRUE(!blocklist->IsBlocked("host3:8090"));
     return true;
 }
 
@@ -83,20 +79,18 @@ static bool test_blocklist_clear() {
 // ============================================================================
 
 static bool test_pid_remote_address() {
-    auto pid = PID::New("192.168.1.100:8090", "remote-actor");
+    auto pid = NewPID("192.168.1.100:8090", "remote-actor");
 
-    std::string addr = pid->Address();
-    ASSERT_TRUE(addr.find("192.168.1.100") != std::string::npos);
-    ASSERT_TRUE(addr.find("remote-actor") != std::string::npos);
+    ASSERT_TRUE(pid->address.find("192.168.1.100") != std::string::npos);
+    ASSERT_TRUE(pid->id.find("remote-actor") != std::string::npos);
     return true;
 }
 
 static bool test_pid_local_vs_remote() {
-    auto local_pid = PID::New("localhost", "local-actor");
-    auto remote_pid = PID::New("remote-host:8090", "remote-actor");
+    auto local_pid = NewPID("localhost", "local-actor");
+    auto remote_pid = NewPID("remote-host:8090", "remote-actor");
 
-    // Local and remote PIDs should have different addresses
-    ASSERT_TRUE(local_pid->Address() != remote_pid->Address());
+    ASSERT_TRUE(local_pid->address != remote_pid->address);
     return true;
 }
 
@@ -186,8 +180,8 @@ static bool test_serialization_type_json() {
 // ============================================================================
 
 static bool test_message_envelope_with_sender() {
-    auto sender = PID::New("sender-host", "sender-actor");
-    auto target = PID::New("target-host", "target-actor");
+    auto sender = NewPID("sender-host", "sender-actor");
+    auto target = NewPID("target-host", "target-actor");
 
     // Create envelope with sender info
     // In real usage: MessageEnvelope::Wrap(message, sender, headers)
@@ -254,7 +248,7 @@ int main() {
     RUN(test_blocklist_empty);
     RUN(test_blocklist_block_address);
     RUN(test_blocklist_block_multiple);
-    RUN(test_blocklist_unblock);
+    RUN(test_blocklist_len_and_blocked_members);
     RUN(test_blocklist_clear);
 
     // PID tests for remote

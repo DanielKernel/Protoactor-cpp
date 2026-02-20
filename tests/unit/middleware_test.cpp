@@ -3,7 +3,7 @@
  * SpawnMiddleware, and ContextDecorator chains.
  */
 #include "external/props.h"
-#include "external/middleware_chain.h"
+#include "internal/actor/middleware_chain.h"
 #include "external/messages.h"
 #include "tests/test_common.h"
 #include <cstdio>
@@ -110,11 +110,10 @@ static bool test_empty_sender_middleware_returns_original() {
 }
 
 static bool test_sender_middleware_can_modify_target() {
-    auto modified_target = PID::New("modified", "target");
+    auto modified_target = NewPID("modified", "target");
 
     auto middleware = [&modified_target](auto next) {
-        return [&modified_target, next](auto ctx, auto target, auto env) {
-            // Modify target
+        return [&modified_target, next](auto ctx, auto /* target */, auto env) {
             next(ctx, modified_target, env);
         };
     };
@@ -125,11 +124,11 @@ static bool test_sender_middleware_can_modify_target() {
     };
 
     auto chain = MakeSenderMiddlewareChain({middleware}, original);
-    auto original_target = PID::New("original", "target");
+    auto original_target = NewPID("original", "target");
     chain(nullptr, original_target, nullptr);
 
     ASSERT_TRUE(captured_target != nullptr);
-    ASSERT_TRUE(captured_target->Address() == modified_target->Address());
+    ASSERT_TRUE(captured_target->address == modified_target->address);
     return true;
 }
 
@@ -157,7 +156,7 @@ static bool test_spawn_middleware_can_intercept_spawn() {
     bool middleware_called = false;
     bool original_called = false;
 
-    auto middleware = [&middleware_called](auto next) {
+    auto middleware = [&middleware_called, &original_called](auto next) {
         return [&middleware_called, &original_called, next](auto system, auto name, auto props, auto ctx) {
             middleware_called = true;
             return next(system, name, props, ctx);

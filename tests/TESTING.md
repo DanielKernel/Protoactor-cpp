@@ -45,7 +45,7 @@
 | `--build-dir DIR` | 构建目录，默认 `build` |
 | `--configure` | 若未配置则先执行 cmake |
 | `--coverage` | 使用 `build_cov` 并开启 ENABLE_COVERAGE，构建后跑单元测试 |
-| `--module NAME` | 只运行指定模块（pid, config, platform, queue, pidset, priority_queue, messages, thread_pool, dispatcher） |
+| `--module NAME` | 只运行指定模块（pid, config, platform, queue, pidset, priority_queue, messages, thread_pool, dispatcher, extensions, props, eventstream, supervision） |
 | `--quick` | 只运行 thread_pool_test、dispatcher_test |
 | `--list` | 列出所有单元测试名称与模块名后退出 |
 | `--verbose` | ctest -V 详细输出 |
@@ -138,7 +138,7 @@ ctest -L unit -V
    ```
 
 3. **说明**
-   关键代码指：pid、config、platform、queue、pidset、priority_queue、messages、thread_pool、dispatcher 对应源文件。目标为单元测试行覆盖率 ≥60%。pid 中依赖 ActorSystem 的路径需集成测试补充。
+   关键代码指：pid、config、platform、queue、pidset、priority_queue、messages、thread_pool、dispatcher 等对应源文件。目标为单元测试行覆盖率 ≥60%。pid 中依赖 ActorSystem 的路径需集成测试补充。
 
 ---
 
@@ -289,6 +289,28 @@ A: 部分环境（如某些 macOS/沙箱）下 Actor 运行时可能异常。可
 
 **Q: 如何只跑某几个模块？**
 A: 用测试名正则，例如：`ctest -R "unit_pid|unit_queue|thread_pool_test" --output-on-failure`，或多次执行 `./tests/scripts/run_unit_tests.sh --module <name>`。
+
+---
+
+## 十一、测试改进建议（是否需要增加测试？）
+
+### 当前状态小结
+
+- **单元测试**：已接入 CMake 的为 pid、config、platform、queue、pidset、priority_queue、messages、thread_pool、dispatcher、extensions、props、eventstream、supervision、middleware、router、remote、persistence、**cluster**（共 18 个）。cluster 仅测 Member（不包含 Config/Cluster 以避免 static-init 段错误）。
+- **功能/集成测试**：`actor_integration_test`（Actor 创建、发消息、多 Actor）、`performance_test`（线程池/Dispatcher/Actor 吞吐）。`tests/integration/remote_cluster_integration_test.cpp` 存在但未接入 CMake。
+- **性能测试**：`performance_test`、`examples/perf_benchmark`、`tests/scripts/perf/run_perf_tests.sh` 及 CI 性能流水线。
+
+### 建议增加的测试（按优先级）
+
+| 类型 | 建议 | 说明 |
+|------|------|------|
+| **单元测试** | 已完成 | **middleware、router、remote、persistence、cluster** 已修复并接入；persistence 的 GetEvents(..., -1) 已在实现中按“到末尾”处理；cluster 仅测 Member 以避免引入 cluster.h 的 static-init。 |
+| **单元测试** | 可选补充 | 若需更高覆盖率，可为 **scheduler/timer**、**stream**、**metrics**、**behavior**、**future**、**mailbox** 等模块新增对应 `*_test.cpp`，并加入 `UNIT_TESTS`。 |
+| **功能/集成测试** | 可选 | 将 `tests/integration/remote_cluster_integration_test.cpp` 接入 CMake（可选 `ENABLE_GRPC` 时才构建）；或增加监督重启、超时、Router 与 Actor 协同等场景。 |
+| **性能测试** | 可选 | 已有基准与流水线；可增加**性能回归**：在 CI 中比较当前与基线吞吐，若下降超过设定阈值则失败；或增加广播、多节点等场景。 |
+| **覆盖率** | 建议 | 用 `--coverage` + `coverage_report.sh` 定期查看，保持关键模块行覆盖率 ≥60%。 |
+
+**结论**：项目已有较完整的单元测试、功能测试与性能测试体系。**是否需要增加**：建议先接入并修复已有的 5 个单元测试（middleware/router/remote/persistence/cluster），再按需扩展上述可选项。
 
 **Q: 脚本没有执行权限？**
 A: `chmod +x tests/scripts/run_unit_tests.sh tests/scripts/ci_tests.sh tests/scripts/coverage_report.sh`

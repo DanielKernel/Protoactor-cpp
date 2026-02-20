@@ -344,6 +344,11 @@ if(BUILD_TESTS)
         tests/unit/props_test.cpp::unit_props::props
         tests/unit/eventstream_test.cpp::unit_eventstream::eventstream
         tests/unit/supervision_test.cpp::unit_supervision::supervision
+        tests/unit/middleware_test.cpp::unit_middleware::middleware
+        tests/unit/router_test.cpp::unit_router::router
+        tests/unit/remote_test.cpp::unit_remote::remote
+        tests/unit/persistence_test.cpp::unit_persistence::persistence
+        tests/unit/cluster_test.cpp::unit_cluster::cluster
     )
     foreach(_ent ${UNIT_TESTS})
         string(REPLACE "::" ";" _parts "${_ent}")
@@ -394,7 +399,7 @@ if(BUILD_TESTS)
         target_link_libraries(performance_test --coverage)
     endif()
 
-    message(STATUS "Unit tests (by module): pid, config, platform, queue, pidset, priority_queue, messages, thread_pool, dispatcher, extensions, props, eventstream, supervision")
+    message(STATUS "Unit tests (by module): pid, config, platform, queue, pidset, priority_queue, messages, thread_pool, dispatcher, extensions, props, eventstream, supervision, middleware, router, remote, persistence, cluster")
     message(STATUS "Run by module: ctest -L 'module:<name>' (e.g. ctest -L 'module:pid'); all unit: ctest -L unit")
 endif()
 
