@@ -72,6 +72,17 @@ static bool test_pid_equal_same_request_id() {
     return true;
 }
 
+static bool test_pid_clear_cache() {
+    auto p = NewPID("sys", "id1");
+    ASSERT_TRUE(p != nullptr);
+    p->ClearCache();
+    ASSERT_TRUE(p->address == "sys");
+    ASSERT_TRUE(p->id == "id1");
+    auto q = NewPID("sys", "id1");
+    ASSERT_TRUE(p->Equal(q));
+    return true;
+}
+
 int main() {
     std::fprintf(stdout, "PID unit tests (module:pid)\n");
     int failed = 0;
@@ -84,6 +95,7 @@ int main() {
     RUN(test_pid_equal_nullptr);
     RUN(test_pid_equal_different_request_id);
     RUN(test_pid_equal_same_request_id);
+    RUN(test_pid_clear_cache);
 #undef RUN
     std::fprintf(stdout, "\nTotal: %d failed\n", failed);
     return failed == 0 ? 0 : 1;

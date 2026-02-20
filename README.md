@@ -1,22 +1,22 @@
 # ProtoActor C++
 
-这是ProtoActor Go版本的C++17实现，确保功能100%继承。
+这是 ProtoActor-Go 的 C++17 实现，**本地核心 Actor 能力**与 Go 版对齐；**远程通信、集群与虚拟 Actor 当前暂不支持**。
 
 ## 功能完整性
 
-基于与 [ProtoActor-Go](https://github.com/asynkron/protoactor-go) 的详细对比分析，本实现功能完成度达到 **95%+**：
+基于与 [ProtoActor-Go](https://github.com/asynkron/protoactor-go) 的对比及代码实现，当前支持情况如下：
 
 | 核心功能 | 状态 | 远程/集群 | 状态 |
 |---------|------|----------|------|
-| Actor/PID/Context/Props | 100% | gRPC远程通信 | 100% |
-| 消息传递 (Send/Request/Future) | 100% | Protobuf/JSON序列化 | 100% |
-| 生命周期管理 | 100% | 集群成员管理 | 100% |
-| 行为管理 (Become/Unbecome) | 100% | Gossip协议 | 100% |
-| 监督策略 (OneForOne/AllForOne) | 100% | Pub/Sub | 100% |
-| 路由系统 (广播/轮询/随机/哈希) | 100% | 虚拟Actor (Grains) | 90% |
-| 持久化 (事件溯源/快照) | 100% | 身份查找/PID缓存 | 100% |
+| Actor/PID/Context/Props | ✅ 支持 | gRPC 远程通信 | ⛔ 暂不支持 |
+| 消息传递 (Send/Request/Future) | ✅ 支持 | Protobuf/JSON 序列化 | ⛔ 暂不支持 |
+| 生命周期管理 | ✅ 支持 | 集群成员管理 | ⛔ 暂不支持 |
+| 行为管理 (Become/Unbecome) | ✅ 支持 | Gossip 协议 | ⛔ 暂不支持 |
+| 监督策略 (OneForOne/AllForOne) | ✅ 支持 | Pub/Sub（本地） | ✅ 支持 |
+| 路由系统 (广播/轮询/随机/哈希) | ✅ 支持 | **虚拟 Actor (Grains)** | ⛔ 暂不支持 |
+| 持久化 (事件溯源/快照) | ✅ 支持 | 身份查找/PID 缓存 | ⛔ 暂不支持 |
 
-**详细对比请参阅 [docs/COMPARISON_AND_MIGRATION.md](docs/COMPARISON_AND_MIGRATION.md)**
+**详细对比与差异分析**：[docs/COMPARISON_AND_MIGRATION.md](docs/COMPARISON_AND_MIGRATION.md)、[docs/GAP_ANALYSIS_VS_PROTOACTOR_GO.md](docs/GAP_ANALYSIS_VS_PROTOACTOR_GO.md)
 
 ## 项目结构
 
@@ -90,9 +90,9 @@ cmake --build . -j$(nproc)
 - C++17 标准库（编译器自带）
 
 ### 可选依赖（功能增强）
-- **gRPC + Protobuf**: 远程通信（必需，如需远程功能）
+- **gRPC + Protobuf**: 预留远程通信构建选项（当前远程功能暂不支持）
 - **spdlog**: 日志系统（推荐）
-- **rapidjson**: JSON支持（可选）
+- **rapidjson**: JSON 支持（可选）
 
 ## 核心功能
 
@@ -114,16 +114,11 @@ cmake --build . -j$(nproc)
 - Restarting策略
 - 自定义Decider
 
-### 远程通信
-- gRPC支持
-- 跨节点消息传递
-- 远程Actor创建
+### 远程通信（⛔ 当前暂不支持）
+- gRPC 与跨节点消息传递、远程 Actor 创建等接口存在但未实现端到端，详见 [功能差异分析](docs/GAP_ANALYSIS_VS_PROTOACTOR_GO.md)。
 
-### 集群支持
-- 成员管理
-- Gossip协议
-- 虚拟Actor (Grains)
-- 身份查找
+### 集群支持（⛔ 当前暂不支持）
+- 成员管理、Gossip 协议、虚拟 Actor (Grains)、身份查找等接口存在但跨节点能力暂未打通。
 
 ### 路由
 - 广播路由
@@ -181,6 +176,14 @@ int main() {
 | [remote_example.cpp](examples/remote_example.cpp) | 远程通信 |
 | [cluster_example.cpp](examples/cluster_example.cpp) | 集群支持 |
 | [pubsub_example.cpp](examples/pubsub_example.cpp) | 发布订阅 |
+
+## 当前限制与路线图
+
+- **平台**：仅支持 Linux，64 位架构（x86_64 / ARM64），详见 [架构文档](docs/ARCHITECTURE.md)。
+- **⛔ 远程通信**：当前**暂不支持**。gRPC/Protobuf/序列化/远程 Spawn 等为骨架或占位，无法用于跨节点通信。
+- **⛔ 集群**：当前**暂不支持**。MemberList/Gossip/PubSub 等有本地实现，但跨节点 Gossip、GetCluster、BlockList 联动等未打通。
+- **⛔ 虚拟 Actor (Grains)**：当前**暂不支持**。身份查找与 PID 缓存逻辑存在，但依赖未实现的 `SpawnNamed`，无法使用。
+- 更多缺口说明见 [功能差异分析](docs/GAP_ANALYSIS_VS_PROTOACTOR_GO.md)。
 
 ## 文档
 

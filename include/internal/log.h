@@ -30,10 +30,10 @@
     namespace log {
         class LoggerImpl {
         public:
-            void info(const std::string& msg) { /* Basic implementation */ }
-            void debug(const std::string& msg) { /* Basic implementation */ }
-            void warn(const std::string& msg) { /* Basic implementation */ }
-            void error(const std::string& msg) { /* Basic implementation */ }
+            void info(const std::string& msg) { (void)msg; }
+            void debug(const std::string& msg) { (void)msg; }
+            void warn(const std::string& msg) { (void)msg; }
+            void error(const std::string& msg) { (void)msg; }
             template<typename... Args>
             void info(const std::string& fmt, Args... args) { /* Basic implementation */ }
             template<typename... Args>
@@ -47,6 +47,7 @@
         using Logger = std::shared_ptr<LoggerImpl>;
         
         inline Logger GetLogger(const std::string& name) {
+            (void)name;
             return std::make_shared<LoggerImpl>();
         }
         

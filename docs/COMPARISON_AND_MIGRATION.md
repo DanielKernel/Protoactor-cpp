@@ -2,6 +2,8 @@
 
 本文档整合了功能对比、框架对比和迁移指南，帮助开发者了解 C++ 版本与 Go 版本的差异，以及如何从 Go 版本迁移。
 
+**说明**：当前 C++ 版本**仅保证本地核心 Actor 能力**与 Go 对齐；**远程通信、集群及虚拟 Actor (Grains) 标注为暂不支持**，对应 API 与代码骨架存在但不可用于跨节点场景。详见 [功能差异分析](GAP_ANALYSIS_VS_PROTOACTOR_GO.md)。
+
 ---
 
 ## 一、功能完整性对比
@@ -35,23 +37,24 @@
 | 已停止 | `*actor.Stopped` | `Stopped` | 100% |
 | 重启中 | `*actor.Restarting` | `Restarting` | 100% |
 
-### 远程通信
+### 远程通信（⛔ 当前暂不支持）
 
-| 功能 | Go | C++ | 完成度 |
+| 功能 | Go | C++ | 状态 |
 |------|-----|-----|--------|
-| gRPC传输 | `remote.Start()` | `remote::Start()` | 100% |
-| Protobuf序列化 | 内置 | `ProtoSerializer` | 100% |
-| JSON序列化 | - | `JsonSerializer` | 100% |
-| 远程Actor创建 | `remote.Spawn()` | `remote::Spawn()` | 100% |
-| 黑名单 | - | `Blocklist` | 100% |
+| gRPC传输 | `remote.Start()` | `remote::Start()` | ⛔ 骨架存在，端到端未打通 |
+| Protobuf序列化 | 内置 | `ProtoSerializer` | ⛔ 占位，未实现 |
+| JSON序列化 | - | `JsonSerializer` | ⛔ 占位，未实现 |
+| 远程Actor创建 | `remote.Spawn()` | `remote::SpawnNamed()` | ⛔ 返回 not_supported |
+| 黑名单 | - | `Blocklist` | ⛔ 未与集群联动 |
 
-### 集群支持
+### 集群支持（⛔ 当前暂不支持）
 
-| 功能 | Go | C++ | 完成度 |
+| 功能 | Go | C++ | 状态 |
 |------|-----|-----|--------|
-| 成员管理 | `cluster.MemberList` | `cluster::MemberList` | 100% |
-| Gossip协议 | `gossip.Gossiper` | `cluster::Gossiper` | 100% |
-| Pub/Sub | `pubsub` | `cluster::PubSub` | 100% |
+| 成员管理 | `cluster.MemberList` | `cluster::MemberList` | ⛔ 数据结构有，跨节点未打通 |
+| Gossip协议 | `gossip.Gossiper` | `cluster::Gossiper` | ⛔ 本地逻辑有，未通过 remote 发送 |
+| Pub/Sub | `pubsub` | `cluster::PubSub` | ✅ 本地 Pub/Sub 可用 |
+| 虚拟 Actor (Grains) | grains | IdentityLookup / PID 缓存 | ⛔ 依赖 SpawnNamed，暂不可用 |
 
 ### 其他功能
 
@@ -160,7 +163,7 @@ remote.Register("hello", actor.PropsFromProducer(func() actor.Actor { return &My
 spawnResponse, _ := remote.SpawnNamed("localhost:8091", "myactor", "hello", time.Second)
 ```
 
-**C++版本：**
+**C++版本：**（⛔ 远程当前暂不支持，`SpawnNamed` 会返回 `not_supported`）
 ```cpp
 protoactor::remote::Start("localhost:8090");
 protoactor::remote::Register("hello", protoactor::Props::FromProducer([](){ ... }));

@@ -928,6 +928,8 @@ class ConsistentHashRouter : public Router {
 
 ## 远程通信
 
+**⛔ 当前暂不支持**：以下 API 与类型存在，但跨节点通信、SpawnNamed、序列化等未实现端到端，不可用于生产。
+
 ### Remote
 
 远程通信模块。
@@ -995,6 +997,8 @@ public:
 ---
 
 ## 集群
+
+**⛔ 当前暂不支持**：以下 API 与类型存在，但跨节点 Gossip、GetCluster、虚拟 Actor (Grains) 等未打通，仅本地 Pub/Sub 等部分能力可用。
 
 ### Cluster
 

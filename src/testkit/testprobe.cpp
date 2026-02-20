@@ -166,6 +166,7 @@ bool Await::Condition(std::function<bool()> condition, std::chrono::milliseconds
 std::pair<std::shared_ptr<void>, std::error_code> Await::Future(
     std::shared_ptr<protoactor::Future> future,
     std::chrono::milliseconds timeout) {
+    (void)timeout;
     return future->Result();
 }
 

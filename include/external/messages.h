@@ -153,7 +153,7 @@ struct Failure : public SystemMessage {
     std::shared_ptr<PID> parent;
     
     Failure(std::shared_ptr<PID> w, std::shared_ptr<void> r, std::shared_ptr<PID> p, std::shared_ptr<void> m)
-        : who(w), reason(r), parent(p), message(m) {
+        : who(w), reason(r), message(m), parent(p) {
     }
 };
 
