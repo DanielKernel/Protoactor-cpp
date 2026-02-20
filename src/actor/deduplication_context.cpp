@@ -34,8 +34,7 @@ public:
             if (elapsed < ttl_) {
                 // Refresh timestamp and drop duplicate
                 seen_[key] = now;
-                // Log deduplication
-                // TODO: Use proper logger
+                protoactor::log::GetLogger("deduplication")->debug("Dropped duplicate message");
                 return false;
             }
         }

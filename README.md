@@ -1,6 +1,6 @@
 # ProtoActor C++
 
-这是ProtoActor Go版本的C++11实现，确保功能100%继承。
+这是ProtoActor Go版本的C++17实现，确保功能100%继承。
 
 ## 功能完整性
 
@@ -45,7 +45,7 @@ protoactor-cpp/
 ### 构建要求
 
 - **Linux操作系统** (Ubuntu, Debian, CentOS, RHEL等)
-- C++11或更高版本的编译器（GCC 4.8+, Clang 3.3+）
+- C++17 编译器（GCC 7+, Clang 5+）
 - CMake 3.10+
 - pthread库（系统自带）
 
@@ -87,7 +87,7 @@ cmake --build . -j$(nproc)
 
 ### 必需依赖
 - pthread（系统自带）
-- C++11标准库（编译器自带）
+- C++17 标准库（编译器自带）
 
 ### 可选依赖（功能增强）
 - **gRPC + Protobuf**: 远程通信（必需，如需远程功能）

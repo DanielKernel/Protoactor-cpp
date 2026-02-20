@@ -6,6 +6,7 @@
 #include "external/actor_system.h"
 #include "internal/process_registry.h"
 #include "external/messages.h"
+#include "internal/log.h"
 #include <stdexcept>
 
 namespace protoactor {
@@ -82,8 +83,7 @@ void EndpointReader::DeserializeAndDeliver(
             }
         }
     } catch (const std::exception& e) {
-        // TODO: Log error
-        // Drop message or send to deadletter
+        protoactor::log::GetLogger("remote")->error(std::string("DeserializeAndDeliver failed: ") + e.what());
     }
 }
 

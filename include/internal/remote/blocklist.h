@@ -6,16 +6,7 @@
 #include <vector>
 #include <mutex>
 #include <memory>
-#ifdef __cpp_lib_shared_mutex
-#include <shared_mutex> // For std::shared_mutex (C++14+)
-#else
-// Use std::mutex as fallback for C++11
-namespace std {
-    using shared_mutex = mutex;
-    template<typename T>
-    using shared_lock = lock_guard<T>;
-}
-#endif
+#include <shared_mutex> // C++17
 
 namespace protoactor {
 namespace remote {

@@ -1,7 +1,10 @@
 name: CI
 
 on:
-  # 仅手动触发
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:

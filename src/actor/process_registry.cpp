@@ -70,7 +70,7 @@ void ProcessRegistry::Remove(std::shared_ptr<PID> pid) {
     if (!pid) {
         return;
     }
-    
+    pid->ClearCache();
     int bucket = GetBucket(pid->id);
     std::lock_guard<std::mutex> lock(shard_mutexes_[bucket]);
     

@@ -1,12 +1,6 @@
 #include "internal/remote/blocklist.h"
 #include <algorithm>
 #include <memory>
-#ifdef __cpp_lib_shared_mutex
-using std::shared_lock;
-#else
-using std::lock_guard;
-#define shared_lock lock_guard
-#endif
 
 namespace protoactor {
 namespace remote {

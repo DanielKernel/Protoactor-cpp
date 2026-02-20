@@ -14,7 +14,7 @@ int GetCPUCount() {
     if (count > 0) {
         return static_cast<int>(count);
     }
-    // Fallback to C++11
+    // Fallback: use std::thread::hardware_concurrency()
     return static_cast<int>(std::thread::hardware_concurrency());
 }
 

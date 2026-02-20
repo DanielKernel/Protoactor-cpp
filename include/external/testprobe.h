@@ -76,7 +76,7 @@ public:
                     // This will only work if the message was originally stored as shared_ptr<T>
                     // In full implementation, we would use type registry or type erasure with type info
                     // Note: We cannot use static_pointer_cast from shared_ptr<void> to shared_ptr<T>
-                    // In C++11, we need to use a workaround: cast the raw pointer
+                    // Workaround: cast the raw pointer (shared_ptr<void> to shared_ptr<T>)
                     // This is unsafe but necessary for this template to work
                     // In full implementation, we would use type registry
                     // Cast void* to T* (unsafe but necessary)

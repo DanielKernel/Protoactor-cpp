@@ -320,7 +320,7 @@ auto props = protoactor::Props::FromProducer([](){ return std::make_shared<MyAct
 | 方面 | Go | C++ |
 |------|-----|-----|
 | 轻量级线程 | Goroutine | 线程池 + 调度器 |
-| 内存模型 | Go内存模型 | C++11内存模型 |
+| 内存模型 | Go内存模型 | C++17内存模型 |
 
 ### 3. 错误处理
 

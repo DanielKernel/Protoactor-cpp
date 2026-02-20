@@ -58,13 +58,13 @@ public:
      */
     void SendSystemMessage(std::shared_ptr<ActorSystem> actor_system, std::shared_ptr<void> message);
 
-private:
-    std::atomic<Process*> process_ptr_; // Cached process pointer (atomic for thread safety)
-    
     /**
-     * @brief Clear the cached process pointer.
+     * @brief Clear the cached process pointer. Call when the process is stopped/removed.
      */
     void ClearCache();
+
+private:
+    std::atomic<Process*> process_ptr_; // Cached process pointer (atomic for thread safety)
 };
 
 /**

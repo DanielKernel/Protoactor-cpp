@@ -6,6 +6,7 @@
 #include "external/actor_system.h"
 #include "external/props.h"
 #include "external/pid.h"
+#include "internal/log.h"
 #include <sstream>
 #include <thread>
 #include <stdexcept>
@@ -101,9 +102,7 @@ void Remote::StartGrpcServer() {
     server_thread_ = std::thread([this]() {
         grpc_server_->Wait();
     });
-    
-    // Log server start
-    // TODO: Use proper logger
+    protoactor::log::GetLogger("remote")->info("gRPC server started on " + address);
 #else
     // gRPC not enabled, skip server startup
 #endif
